@@ -21,7 +21,9 @@ export const AdminProvider = ({ children }) => {
   const storedAdminName = localStorage.getItem('admin_name') || 'Guest';
   const storedAdminNo = localStorage.getItem('admin_no') || null;
   const storedAdminEmail = localStorage.getItem('admin_email') || 'guest@example.com';
-
+  console.log('Admin Name:', storedAdminName); // 디버깅용
+  console.log('Admin No:', storedAdminNo); // 디버깅용
+  console.log('Admin Email:', storedAdminEmail); // 디버깅용
   return (
     <AdminContext.Provider value={{ admin_name: storedAdminName, admin_no: storedAdminNo, admin_email: storedAdminEmail }}>
       {children}

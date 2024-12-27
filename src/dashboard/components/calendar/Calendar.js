@@ -65,7 +65,7 @@ const handleMonthImageRegister = async () => {
     console.log(`${key}:`, value); // 모든 key-value를 출력
   }
   try {
-    const response = await fetch('http://localhost:8000/custom_month', {
+    const response = await fetch('http://localhost:8080/custom_month', {
       method: 'POST',
       body: formData,
     });
@@ -96,7 +96,7 @@ const handleMonthImageRegister = async () => {
     formData.append('image', newMonthImage); // 새 이미지 파일
 
     try {
-      const response = await fetch('http://localhost:8000/change_month_image', {
+      const response = await fetch('http://localhost:8080/change_month_image', {
         method: 'PUT',
         body: formData,
       });
@@ -119,7 +119,7 @@ const handleMonthImageRegister = async () => {
   // 월 데이터를 가져오는 함수
   const fetchCustomMonthData = async (customMonth) => {
     try {
-      const response = await fetch(`http://localhost:8000/custom_month/${customMonth}`);
+      const response = await fetch(`http://localhost:8080/custom_month/${customMonth}`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || '데이터를 가져오는데 실패했습니다.');
@@ -138,7 +138,7 @@ const handleMonthImageRegister = async () => {
   // 일 데이터를 가져오는 함수
   const fetchCustomDayData = async (year, month) => {
     try {
-      const response = await fetch(`http://localhost:8000/custom_day/${year}/${month}`);
+      const response = await fetch(`http://localhost:8080/custom_day/${year}/${month}`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || '데이터를 가져오는데 실패했습니다.');
@@ -199,7 +199,7 @@ const handleDayUpdate = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/change_day', {
+    const response = await fetch('http://localhost:8080/change_day', {
       method: 'PUT',
       body: formData,
     });
@@ -231,7 +231,7 @@ const handleCreateEvent = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/create_day', {
+    const response = await fetch('http://localhost:8080/create_day', {
       method: 'POST',
       body: formData,
       headers: {
@@ -285,7 +285,7 @@ const handleCreateEvent = async () => {
     }
   
     try {
-      const response = await fetch('http://localhost:8000/deactivate_day', {
+      const response = await fetch('http://localhost:8080/deactivate_day', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -323,7 +323,7 @@ const handleCreateEvent = async () => {
               events={events.map((event) => ({ title: event.calendar_name, start: event.calendar_date, image:event.calendar_img }))}
               datesSet={handleMonthChange} // FullCalendar 월 변경 이벤트
               eventContent={renderEventContent} // 커스터마이즈된 이벤트 렌더러
-              eventTextColor="#1A1A3A" // #0000ff(파란색), #008000(초록색), #1A1A3A(네이비)
+              eventTextColor="#1A1A3A" // #0000ff(파란색), #008080(초록색), #1A1A3A(네이비)
               eventBackgroundColor="transparent" // 배경색 제거
               eventBorderColor="transparent" // 테두리 제거
               height="auto" // 캘린더 높이를 자동으로 설정

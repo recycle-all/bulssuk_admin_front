@@ -21,12 +21,12 @@ const Userinfo = () => {
     const fetchData = async () => {
       try {
         // 사용자 정보 가져오기
-        const userResponse = await fetch(`http://localhost:8000/user/${user_no}`);
+        const userResponse = await fetch(`http://localhost:8080/user/${user_no}`);
         const userData = await userResponse.json();
         setUser(userData); // Assuming data is an array with one user object
 
         // 포인트 정보 가져오기
-        const pointsResponse = await fetch('http://localhost:8000/point');
+        const pointsResponse = await fetch('http://localhost:8080/point');
         const pointsData = await pointsResponse.json();
         setPoints(pointsData); // 전체 포인트 데이터를 저장
 

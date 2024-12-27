@@ -23,7 +23,7 @@ const Signup = () => {
         setError(null);
     
         try {
-          const response = await fetch('http://localhost:8000/sign_up', {
+          const response = await fetch('http://localhost:8080/admin_sign_up', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

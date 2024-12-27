@@ -86,7 +86,7 @@ export default function Midcategory() {
 // 중분류 가져오기 
   const getCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8000/mid_category');
+      const response = await fetch('http://localhost:8080/mid_category');
       const data = await response.json();
       setMidCategories(data);
       // console.log(data);
@@ -97,7 +97,7 @@ export default function Midcategory() {
 // 대분류 가져오기
 const fetchCategories = async () => {
   try {
-    const response = await fetch('http://localhost:8000/big_category');
+    const response = await fetch('http://localhost:8080/big_category');
     const data = await response.json();
 
     // status=true인 데이터만 필터링
@@ -120,7 +120,7 @@ const handleDeactivate = async () => {
   if (!selectedSubcategory) return;
 
   try {
-    const response = await fetch(`http://localhost:8000/deactivate_subcategory/${selectedSubcategory.subcategory_no}`, {
+    const response = await fetch(`http://localhost:8080/deactivate_subcategory/${selectedSubcategory.subcategory_no}`, {
       method: 'PUT',
     });
 
@@ -160,7 +160,7 @@ const handleDeactivate = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/create_mid_category', {
+    const response = await fetch('http://localhost:8080/create_mid_category', {
       method: 'POST',
       body: formData,
     });
@@ -188,7 +188,7 @@ const handleOpen = async (subcategory) => {
 
   try {
     // 백엔드에서 guide_content와 guide_image를 가져오는 API 호출
-    const response = await fetch(`http://localhost:8000/guide/${subcategory.subcategory_no}`);
+    const response = await fetch(`http://localhost:8080/guide/${subcategory.subcategory_no}`);
     const data = await response.json();
 
     if (response.ok) {
@@ -236,7 +236,7 @@ const handleUpdate = async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:8000/update_mid_category`, {
+    const response = await fetch(`http://localhost:8080/update_mid_category`, {
       method: 'PUT',
       body: formData,
     });

@@ -17,7 +17,7 @@ const Faq = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await fetch('http://localhost:8000/all_inquiries');
+        const response = await fetch('http://localhost:8080/all_inquiries');
         const data = await response.json();
 
         // 모든 사용자 데이터 가져오기
@@ -50,7 +50,7 @@ const Faq = () => {
   const fetchUsers = async (userNos) => {
     try {
       const userDataPromises = userNos.map(async (user_no) => {
-        const response = await fetch(`http://localhost:8000/user/${user_no}`);
+        const response = await fetch(`http://localhost:8080/user/${user_no}`);
         const userData = await response.json();
         return { user_no, ...userData };
       });

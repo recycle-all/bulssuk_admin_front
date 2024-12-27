@@ -73,7 +73,7 @@ export default function CompanyManagement() {
   // DB에 등록되어있는 모든 기업 정보 가져오기
   const getCompanies = async () => {
     try {
-      const response = await fetch('http://localhost:8000/companies');
+      const response = await fetch('http://localhost:8080/companies');
       const data = await response.json();
       setCompanies(data);
     } catch (error) {
@@ -89,7 +89,7 @@ export default function CompanyManagement() {
     const fetchCompanyProducts = async () => {
       if (selectedCompany && selectedCompany.company_no) {
         try {
-          const response = await fetch(`http://localhost:8000/products/${selectedCompany.company_no}`);
+          const response = await fetch(`http://localhost:8080/products/${selectedCompany.company_no}`);
           const data = await response.json();
   
           if (response.ok) {
@@ -160,7 +160,7 @@ export default function CompanyManagement() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/change_company`, {
+      const response = await fetch(`http://localhost:8080/change_company`, {
         method: 'PUT',
         body: formDataToSend,
       });
@@ -190,7 +190,7 @@ export default function CompanyManagement() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/create_company', {
+      const response = await fetch('http://localhost:8080/create_company', {
         method: 'POST',
         body: formDataToSend,
       });
@@ -213,7 +213,7 @@ export default function CompanyManagement() {
     if (!selectedCompany) return;
   
     try {
-      const response = await fetch('http://localhost:8000/deactivate_company', {
+      const response = await fetch('http://localhost:8080/deactivate_company', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

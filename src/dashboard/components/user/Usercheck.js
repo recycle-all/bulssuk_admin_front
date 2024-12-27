@@ -19,11 +19,11 @@ const Usercheck = () => {
     const fetchData = async () => {
       try {
         // 1. 사용자 정보 가져오기
-        const usersResponse = await fetch('http://localhost:8000/users');
+        const usersResponse = await fetch('http://localhost:8080/users');
         const usersData = await usersResponse.json();
   
         // 2. 포인트 정보 가져오기
-        const pointsResponse = await fetch('http://localhost:8000/point');
+        const pointsResponse = await fetch('http://localhost:8080/point');
         const pointsData = await pointsResponse.json();
   
         // 3. 사용자와 포인트 데이터를 매핑

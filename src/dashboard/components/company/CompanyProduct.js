@@ -53,7 +53,7 @@ export default function CompanyProduct() {
 
   const getAllProducts = async () => {
     try {
-      const response = await fetch('http://localhost:8000/products');
+      const response = await fetch('http://localhost:8080/products');
       const data = await response.json();
       setProducts(data);
       setFilteredProducts(data);
@@ -64,7 +64,7 @@ export default function CompanyProduct() {
 
   const getCompanies = async () => {
     try {
-      const response = await fetch('http://localhost:8000/companies');
+      const response = await fetch('http://localhost:8080/companies');
       const data = await response.json();
       setCompanies(data);
     } catch (error) {
@@ -148,7 +148,7 @@ export default function CompanyProduct() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8000/change_product`, {
+      const response = await fetch(`http://localhost:8080/change_product`, {
         method: 'PUT',
         body: formDataToSend,
       });
@@ -177,7 +177,7 @@ export default function CompanyProduct() {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/create_product', {
+      const response = await fetch('http://localhost:8080/create_product', {
         method: 'POST',
         body: formDataToSend,
       });
@@ -203,7 +203,7 @@ export default function CompanyProduct() {
     if (!confirmDelete) return;
   
     try {
-      const response = await fetch('http://localhost:8000/deactivate_product', {
+      const response = await fetch('http://localhost:8080/deactivate_product', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

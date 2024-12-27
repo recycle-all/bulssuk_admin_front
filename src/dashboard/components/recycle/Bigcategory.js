@@ -55,7 +55,7 @@ export default function BigCategory() {
 
     const getBigCategory = async () => {
       try {
-        const response = await fetch('http://localhost:8000/big_category');
+        const response = await fetch('http://localhost:8080/big_category');
         const data = await response.json();
         setBigCategory(data);
       } catch (error) {
@@ -102,7 +102,7 @@ export default function BigCategory() {
 
   
     try {
-      const response = await fetch('http://localhost:8000/update_big_category', {
+      const response = await fetch('http://localhost:8080/update_big_category', {
         method: 'PUT',
         body: formData,
       });
@@ -126,7 +126,7 @@ export default function BigCategory() {
     if (!selectedCategory) return;
 
     try {
-      const response = await fetch(`http://localhost:8000/deactivate_category/${selectedCategory.category_no}`, {
+      const response = await fetch(`http://localhost:8080/deactivate_category/${selectedCategory.category_no}`, {
         method: 'PUT',
       });
 
@@ -160,7 +160,7 @@ const handleCreate = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8000/create_big_category', {
+    const response = await fetch('http://localhost:8080/create_big_category', {
       method: 'POST',
       body: formData,
     });
