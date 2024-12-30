@@ -10,6 +10,8 @@ const Usercheck = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const [points, setPoints] = useState([])
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
+  const [pageSize, setPageSize] = useState(10); // 페이지 크기 상태
   const handleNavigate = (user_no) => {
     navigate(`/userinfo/${user_no}`);
   };
@@ -111,34 +113,35 @@ const Usercheck = () => {
           <Header/>
           <Stack spacing={2} sx={{ height: '100%' }}>
             <h1 className="text-3xl font-bold mb-6">회원 조회</h1>
-            <Box sx={{ flexGrow: 1, width: '100%' }}>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSizeOptions={[10, 20, 50]}
-                checkboxSelection
-                autoHeight
-                getRowClassName={(params) =>
-                  params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
-                sx={{
-                  '& .MuiDataGrid-row': {
-                    borderBottom: '0.5px solid #ccc', // 줄 사이가 더 진하게
-                  },
-                  '& .MuiDataGrid-cell': {
-                    fontSize: '1rem', // 글자 크기 키우기
-                  },
-                  '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: '#f0f0f0',
-                    fontSize: '1.1rem',
-                    fontWeight: 'bold',
-                  },
-                  '& .MuiDataGrid-footerContainer': {
-                    fontSize: '1rem',
-                  },
-                }}
-              />
-            </Box>
+                      <Box sx={{ flexGrow: 1, width: '100%' }}>
+            <DataGrid
+              rows={rows} // 전체 데이터
+              columns={columns} // 컬럼 정의
+              pagination // 페이지네이션 활성화
+              page={currentPage} // 현재 페이지
+              onPageChange={(newPage) => setCurrentPage(newPage)} // 페이지 변경 이벤트
+              pageSize={pageSize} // 한 페이지에 표시할 행 수
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)} // 페이지 크기 변경 이벤트
+              rowsPerPageOptions={[10, 20, 50]} // 페이지 크기 옵션
+              autoHeight
+              sx={{
+                '& .MuiDataGrid-row': {
+                  borderBottom: '1.3px solid #ccc', // 행 사이의 선을 진하게 설정
+                },
+                '& .MuiDataGrid-cell': {
+                  fontSize: '0.9rem', // 셀 폰트 크기
+                },
+                '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: '#f0f0f0',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                },
+                '& .MuiDataGrid-footerContainer': {
+                  fontSize: '0.9rem',
+                },
+              }}
+            />
+          </Box>
           </Stack>
         </Box>
       </Box>

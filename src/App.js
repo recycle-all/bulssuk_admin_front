@@ -16,6 +16,8 @@ import Company from './dashboard/components/company/Company';
 import CompanyProduct from './dashboard/components/company/CompanyProduct';
 import Faq from './dashboard/components/faq/Faq';
 import Answer from './dashboard/components/faq/Answer';
+import RealFaq from './dashboard/components/faq/RealFaq';
+import RealAnswer from './dashboard/components/faq/RealAnswer';
 function App() {
   return (
     <div className="App">
@@ -34,6 +36,8 @@ function App() {
           <Route path="/company_product" element={<CompanyProduct/>}/>
           <Route path="/faq" element={<Faq/>}/>
           <Route path="/answer" element={<Answer/>}/>
+          <Route path="/faq_page" element={<RealFaq/>}/>
+          <Route path="faq/:faq_no" element={<RealAnswer/>}/>
           {/* <Route path="/tree" element={<} */}
         </Routes>
       </Router>

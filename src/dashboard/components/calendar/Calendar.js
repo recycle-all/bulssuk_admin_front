@@ -70,7 +70,9 @@ const handleMonthImageRegister = async () => {
       body: formData,
     });
 
+
     const data = await response.json();
+    console.log(data)
     if (response.ok) {
       alert('이미지가 성공적으로 등록되었습니다.');
       fetchCustomMonthData(currentMonth.month); // 등록된 이미지 갱신
@@ -126,6 +128,7 @@ const handleMonthImageRegister = async () => {
       }
   
       if (data.length > 0) {
+        console.log('서버에서 가져온 데이터:', data)
         setMonthImage({ name: data[0].custom_img, preview: `${data[0].custom_img}` });
       } else {
         setMonthImage({ name: '데이터 없음', preview: '' });

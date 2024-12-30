@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, CssBaseline, Stack, Button, ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Box, CssBaseline, Button, Select, MenuItem } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { alpha } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
@@ -12,19 +12,18 @@ const Faq = () => {
   const [userDetails, setUserDetails] = useState({});
   const [filterStatus, setFilterStatus] = useState('all'); // 필터 상태
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(0); // 현재 페이지 상태
+  const [pageSize, setPageSize] = useState(10); // 페이지 크기 상태
 
-  // 모든 문의 데이터 가져오기
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
         const response = await fetch('http://localhost:8080/all_inquiries');
         const data = await response.json();
 
-        // 모든 사용자 데이터 가져오기
         const userNos = [...new Set(data.map((item) => item.user_no))];
         const users = await fetchUsers(userNos);
 
-        // 사용자 데이터를 inquiries에 병합 및 정렬
         const processedData = data
           .map((item, index) => ({
             id: index + 1,
@@ -35,7 +34,7 @@ const Faq = () => {
             created_at: item.created_at.slice(0, 10),
             is_answered: item.is_answered,
           }))
-          .sort((a, b) => a.question_no - b.question_no); // question_no로 정렬
+          .sort((a, b) => a.question_no - b.question_no);
 
         setInquiries(processedData);
       } catch (error) {
@@ -46,7 +45,6 @@ const Faq = () => {
     fetchInquiries();
   }, []);
 
-  // 사용자 데이터 가져오기
   const fetchUsers = async (userNos) => {
     try {
       const userDataPromises = userNos.map(async (user_no) => {
@@ -69,20 +67,15 @@ const Faq = () => {
     }
   };
 
-  // 필터 상태 변경
-  const handleFilterChange = (event, newFilter) => {
-    if (newFilter !== null) {
-      setFilterStatus(newFilter);
-    }
+  const handleFilterChange = (event) => {
+    setFilterStatus(event.target.value);
   };
 
-  // 필터링된 데이터
   const filteredInquiries = inquiries.filter((inquiry) => {
     if (filterStatus === 'all') return true;
     return inquiry.is_answered === filterStatus;
   });
 
-  // DataGrid 컬럼 정의
   const columns = [
     { field: 'id', headerName: 'No', width: 90, headerClassName: 'header-style' },
     { field: 'question_title', headerName: '문의 제목', flex: 1, headerClassName: 'header-style' },
@@ -109,7 +102,7 @@ const Faq = () => {
           variant="contained"
           sx={{
             backgroundColor: '#e0e0e0',
-            color: 'white',
+            color: 'black',
             '&:hover': {
               backgroundColor: '#bdbdbd',
             },
@@ -145,57 +138,51 @@ const Faq = () => {
           })}
         >
           <Header />
-          <Stack spacing={2} sx={{ height: '100%' }}>
-            <h1 className="text-3xl font-bold mb-6">문의 조회</h1>
+          <h1 className="text-3xl font-bold mb-6">문의 조회</h1>
 
-            {/* 필터링 버튼 */}
-            <ToggleButtonGroup
+          {/* 필터링 Select */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+            <Select
               value={filterStatus}
-              exclusive
               onChange={handleFilterChange}
-              aria-label="Filter by status"
-              sx={{ marginBottom: 2 }}
+              displayEmpty
+              sx={{ width: 200 }}
             >
-              <ToggleButton value="all" aria-label="All">
-                전체
-              </ToggleButton>
-              <ToggleButton value="답변 완료" aria-label="Answered">
-                답변 완료
-              </ToggleButton>
-              <ToggleButton value="답변 대기" aria-label="Pending">
-                답변 대기
-              </ToggleButton>
-            </ToggleButtonGroup>
+              <MenuItem value="all">전체</MenuItem>
+              <MenuItem value="답변 완료">답변 완료</MenuItem>
+              <MenuItem value="답변 대기">답변 대기</MenuItem>
+            </Select>
+          </Box>
 
-            <Box sx={{ flexGrow: 1, width: '100%' }}>
-              <DataGrid
-                rows={filteredInquiries}
-                columns={columns}
-                pageSizeOptions={[10, 20, 50]}
-                checkboxSelection={false}
-                autoHeight
-                getRowClassName={(params) =>
-                  params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
-                sx={{
-                  '& .MuiDataGrid-row': {
-                    borderBottom: '0.5px solid #ccc',
-                  },
-                  '& .MuiDataGrid-cell': {
-                    fontSize: '1rem',
-                  },
-                  '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: '#f0f0f0',
-                    fontSize: '1.1rem',
-                    fontWeight: 'bold',
-                  },
-                  '& .MuiDataGrid-footerContainer': {
-                    fontSize: '1rem',
-                  },
-                }}
-              />
-            </Box>
-          </Stack>
+          <Box sx={{ flexGrow: 1, width: '100%' }}>
+            <DataGrid
+              rows={filteredInquiries}
+              columns={columns}
+              pagination
+              page={currentPage}
+              onPageChange={(newPage) => setCurrentPage(newPage)}
+              pageSize={pageSize}
+              onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+              rowsPerPageOptions={[10, 20, 50]}
+              autoHeight
+              sx={{
+                '& .MuiDataGrid-row': {
+                  borderBottom: '1.3px solid #ccc',
+                },
+                '& .MuiDataGrid-cell': {
+                  fontSize: '0.9rem',
+                },
+                '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: '#f0f0f0',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                },
+                '& .MuiDataGrid-footerContainer': {
+                  fontSize: '0.9rem',
+                },
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </AppTheme>

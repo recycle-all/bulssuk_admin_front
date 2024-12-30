@@ -24,8 +24,16 @@ const mainListItems = [
       { text: '상품 관리', path: '/company_product' }
     ]
   },
-  { text: 'FAQ 관리', icon: <AssignmentRounded />, path: '/faq' },
-  { text: '나무키우기 관리', icon: <AssignmentRounded />, path: '/tree_manage' }
+  { 
+    text: '문의 관리', 
+    icon: <AssignmentRounded />,  
+    subItems: [
+      { text: '1:1 문의 관리', path: '/faq' },
+      { text: 'FAQ 관리', path: '/faq_page' }
+    ]
+  },
+  { text: '나무키우기 관리', icon: <AssignmentRounded />, path: '/tree_manage' },
+  { text: '쿠폰 관리', icon: <AssignmentRounded />, path: '/coupons' },
 ];
 
 export default function MenuContent() {
