@@ -18,7 +18,7 @@ const Faq = () => {
   useEffect(() => {
     const fetchInquiries = async () => {
       try {
-        const response = await fetch('http://localhost:8080/all_inquiries');
+        const response = await fetch(`${process.env.REACT_APP_DOMAIN}/all_inquiries`);
         const data = await response.json();
 
         const userNos = [...new Set(data.map((item) => item.user_no))];
@@ -48,7 +48,7 @@ const Faq = () => {
   const fetchUsers = async (userNos) => {
     try {
       const userDataPromises = userNos.map(async (user_no) => {
-        const response = await fetch(`http://localhost:8080/user/${user_no}`);
+        const response = await fetch(`${process.env.REACT_APP_DOMAIN}/user/${user_no}`);
         const userData = await response.json();
         return { user_no, ...userData };
       });
@@ -137,7 +137,6 @@ const Faq = () => {
             p: 3,
           })}
         >
-          <Header />
           <h1 className="text-3xl font-bold mb-6">문의 조회</h1>
 
           {/* 필터링 Select */}

@@ -15,14 +15,16 @@
     "@mui/x-tree-view": "^7.23.2",
     "@react-spring/web": "^9.7.5",
     "cra-template": "1.2.0",
+    "cross-env": "^7.0.3",
     "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

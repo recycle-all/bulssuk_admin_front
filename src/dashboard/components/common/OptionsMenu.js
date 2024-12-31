@@ -31,7 +31,7 @@ export default function OptionsMenu() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8080/admin_logout', {
+      const response = await fetch('${process.env.REACT_APP_DOMAIN}/admin_logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

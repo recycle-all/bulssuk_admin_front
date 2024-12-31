@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
+import Header from '../common/Header';
 
 const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -55,7 +56,7 @@ export default function BigCategory() {
 
     const getBigCategory = async () => {
       try {
-        const response = await fetch('http://localhost:8080/big_category');
+        const response = await fetch(`${process.env.REACT_APP_DOMAIN}/big_category`);
         const data = await response.json();
         setBigCategory(data);
       } catch (error) {
@@ -102,7 +103,7 @@ export default function BigCategory() {
 
   
     try {
-      const response = await fetch('http://localhost:8080/update_big_category', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/update_big_category`, {
         method: 'PUT',
         body: formData,
       });
@@ -126,7 +127,7 @@ export default function BigCategory() {
     if (!selectedCategory) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/deactivate_category/${selectedCategory.category_no}`, {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/deactivate_category/${selectedCategory.category_no}`, {
         method: 'PUT',
       });
 
@@ -160,7 +161,7 @@ const handleCreate = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/create_big_category', {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/create_big_category`, {
       method: 'POST',
       body: formData,
     });
@@ -196,14 +197,25 @@ return (
           position: 'relative',
         })}
       >
-        <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
-          <Typography variant="h4" fontWeight="bold">
-            대분류 관리
-          </Typography>
-          <Button variant="contained" color="primary" onClick={handleOpenCreate}>
-            등록
-          </Button>
-        </Box>
+<Box
+  display="flex"
+  justifyContent="space-between"
+  alignItems="center"
+  mb={4}
+>
+  <Typography
+    variant="h4"
+    fontWeight="bold"
+    gutterBottom
+    sx={{ margin: '0 auto' }} // 가운데 정렬
+  >
+    대분류 관리
+  </Typography>
+  <Button variant="contained" color="primary" onClick={handleOpenCreate}>
+    등록
+  </Button>
+</Box>
+
 
         <Grid container spacing={3}>
           {bigCategory.map((category, index) => (

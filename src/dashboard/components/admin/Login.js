@@ -12,7 +12,7 @@ const Login = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8080/admin_login', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/admin_login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

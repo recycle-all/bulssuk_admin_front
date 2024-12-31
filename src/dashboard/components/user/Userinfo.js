@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Box, CssBaseline, Stack, Typography, Paper, Button } from '@mui/material';
+import { Box, CssBaseline, Stack, Typography, Paper, Button, Divider } from '@mui/material';
 import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
@@ -21,12 +21,12 @@ const Userinfo = () => {
     const fetchData = async () => {
       try {
         // 사용자 정보 가져오기
-        const userResponse = await fetch(`http://localhost:8080/user/${user_no}`);
+        const userResponse = await fetch(`${process.env.REACT_APP_DOMAIN}/user/${user_no}`);
         const userData = await userResponse.json();
         setUser(userData); // Assuming data is an array with one user object
 
         // 포인트 정보 가져오기
-        const pointsResponse = await fetch('http://localhost:8080/point');
+        const pointsResponse = await fetch(`${process.env.REACT_APP_DOMAIN}/point`);
         const pointsData = await pointsResponse.json();
         setPoints(pointsData); // 전체 포인트 데이터를 저장
 
@@ -67,73 +67,91 @@ const Userinfo = () => {
           })}
         >
 
-          <Paper
-            elevation={3}
-            sx={{
-              p: 4,
-              position: 'relative',
-              maxWidth: '800px',
-              width: '100%',
-              borderRadius: 2,
-            }}
+<Paper
+  elevation={3}
+  sx={{
+    p: 4,
+    position: 'relative',
+    maxWidth: '800px',
+    width: '100%',
+    borderRadius: 2,
+    backgroundColor: '#f9f9f9', // 밝은 배경색
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // 부드러운 그림자
+  }}
+>
+  {/* X 버튼 */}
+  <Button
+    onClick={handleClose}
+    sx={{
+      position: 'absolute',
+      top: 16,
+      right: 16,
+      color: '#757575',
+      fontSize: '1.5rem',
+      minWidth: '32px',
+      '&:hover': {
+        color: '#424242',
+      },
+    }}
+  >
+    &times;
+  </Button>
+
+  <Typography
+    variant="h4"
+    component="h1"
+    align="center"
+    fontWeight="bold"
+    mb={4}
+    sx={{
+      color: '#333',
+      borderBottom: '2px solid #ddd',
+      pb: 2,
+    }}
+  >
+    회원 상세정보 조회
+  </Typography>
+
+  <Stack spacing={3}>
+    {[
+      { label: '아이디', value: user.user_id },
+      { label: '회원명', value: user.user_name },
+      { label: '이메일', value: user.user_email },
+      { label: '가입 일자', value: user.created_at.slice(0, 10) },
+      { label: '보유 포인트', value: `${point}포인트` },
+      { label: '출석률', value: '90%' },
+    ].map((item, index) => (
+      <React.Fragment key={index}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          sx={{
+            backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#f5f5f5', // 홀수/짝수 행 배경색 변경
+            px: 2,
+            py: 1.5,
+            borderRadius: '4px',
+          }}
+        >
+          <Typography
+            variant="h6"
+            fontWeight="500"
+            sx={{ color: '#555', flex: 1 }}
           >
-            {/* X 버튼 */}
-            <Button
-              onClick={handleClose}
-              sx={{
-                position: 'absolute',
-                top: 16,
-                right: 16,
-                color: '#757575',
-                fontSize: '1.5rem',
-                minWidth: '32px',
-                '&:hover': {
-                  color: '#424242',
-                },
-              }}
-            >
-              &times;
-            </Button>
-
-            <Typography variant="h4" component="h1" align="center" fontWeight="bold" mb={4}>
-              회원 상세정보 조회
-            </Typography>
-
-            {/* <Typography variant="h5" component="h2" align="center" fontWeight="600" mb={4}>
-              상세정보 조회
-            </Typography> */}
-
-            <Stack spacing={3}>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">아이디</Typography>
-                <Typography variant="h6">{user.user_id}</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">회원명</Typography>
-                <Typography variant="h6">{user.user_name}</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">이메일</Typography>
-                <Typography variant="h6">{user.user_email}</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">가입 일자</Typography>
-                <Typography variant="h6">{user.created_at.slice(0, 10)}</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">보유 포인트</Typography>
-                <Typography variant="h6">{point}포인트</Typography>
-              </Box>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">출석률</Typography>
-                <Typography variant="h6">90%</Typography>
-              </Box>
-              {/* <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6" fontWeight="500">전화번호</Typography>
-                <Typography variant="h6">{user.users_phone}</Typography>
-              </Box> */}
-            </Stack>
-          </Paper>
+            {item.label}
+          </Typography>
+          <Typography
+            variant="h6"
+            align="right"
+            sx={{ color: '#333', flex: 2 }}
+          >
+            {item.value}
+          </Typography>
+        </Box>
+        {/* {index < 5 && <Divider sx={{ my: 1, borderColor: '#ddd' }} />} */}
+      </React.Fragment>
+    ))}
+  </Stack>
+</Paper>
         </Box>
       </Box>
     </AppTheme>

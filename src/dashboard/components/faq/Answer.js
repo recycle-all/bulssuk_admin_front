@@ -19,7 +19,7 @@ const Answer = () => {
   useEffect(() => {
     const fetchInquiry = async () => {
       try {
-        const inquiryResponse = await fetch(`http://localhost:8080/inquiry/${question_no}`);
+        const inquiryResponse = await fetch(`${process.env.REACT_APP_DOMAIN}/inquiry/${question_no}`);
         const inquiryData = await inquiryResponse.json();
         setInquiry(inquiryData);
       } catch (error) {
@@ -29,7 +29,7 @@ const Answer = () => {
 
     const fetchAnswer = async () => {
       try {
-        const answerResponse = await fetch(`http://localhost:8080/answer/${question_no}`);
+        const answerResponse = await fetch(`${process.env.REACT_APP_DOMAIN}/answer/${question_no}`);
         const answerData = await answerResponse.json();
         setAnswer(answerData);
 
@@ -71,8 +71,8 @@ const Answer = () => {
     try {
       const method = answer.length > 0 ? 'PUT' : 'POST'; // 수정(PUT)인지 등록(POST)인지 확인
       const url = answer.length > 0
-        ? `http://localhost:8080/answer/${question_no}` // 수정 시 question_no 사용
-        : 'http://localhost:8080/answer'; // 등록 시 기본 URL 사용
+        ? `${process.env.REACT_APP_DOMAIN}/answer/${question_no}` // 수정 시 question_no 사용
+        : `${process.env.REACT_APP_DOMAIN}/answer`; // 등록 시 기본 URL 사용
 
       const response = await fetch(url, {
         method,
@@ -104,7 +104,7 @@ const Answer = () => {
 
   const handleDeactivate = async () => {
     try {
-      const response = await fetch('http://localhost:8080/deactivate_inquiry', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/deactivate_inquiry`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

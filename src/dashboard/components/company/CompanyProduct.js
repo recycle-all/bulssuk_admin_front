@@ -53,7 +53,7 @@ export default function CompanyProduct() {
 
   const getAllProducts = async () => {
     try {
-      const response = await fetch('http://localhost:8080/products');
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/products`);
       const data = await response.json();
       setProducts(data);
       setFilteredProducts(data);
@@ -64,7 +64,7 @@ export default function CompanyProduct() {
 
   const getCompanies = async () => {
     try {
-      const response = await fetch('http://localhost:8080/companies');
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/companies`);
       const data = await response.json();
       setCompanies(data);
     } catch (error) {
@@ -148,7 +148,7 @@ export default function CompanyProduct() {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/change_product`, {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/change_product`, {
         method: 'PUT',
         body: formDataToSend,
       });
@@ -177,7 +177,7 @@ export default function CompanyProduct() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/create_product', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/create_product`, {
         method: 'POST',
         body: formDataToSend,
       });
@@ -203,7 +203,7 @@ export default function CompanyProduct() {
     if (!confirmDelete) return;
   
     try {
-      const response = await fetch('http://localhost:8080/deactivate_product', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/deactivate_product`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -232,7 +232,6 @@ export default function CompanyProduct() {
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <SideMenu />
         <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
-           <Header/>
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             상품 관리
           </Typography>

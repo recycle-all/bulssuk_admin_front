@@ -65,7 +65,7 @@ const handleMonthImageRegister = async () => {
     console.log(`${key}:`, value); // 모든 key-value를 출력
   }
   try {
-    const response = await fetch('http://localhost:8080/custom_month', {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/custom_month`, {
       method: 'POST',
       body: formData,
     });
@@ -98,7 +98,7 @@ const handleMonthImageRegister = async () => {
     formData.append('image', newMonthImage); // 새 이미지 파일
 
     try {
-      const response = await fetch('http://localhost:8080/change_month_image', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/change_month_image`, {
         method: 'PUT',
         body: formData,
       });
@@ -121,7 +121,7 @@ const handleMonthImageRegister = async () => {
   // 월 데이터를 가져오는 함수
   const fetchCustomMonthData = async (customMonth) => {
     try {
-      const response = await fetch(`http://localhost:8080/custom_month/${customMonth}`);
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/custom_month/${customMonth}`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || '데이터를 가져오는데 실패했습니다.');
@@ -141,7 +141,7 @@ const handleMonthImageRegister = async () => {
   // 일 데이터를 가져오는 함수
   const fetchCustomDayData = async (year, month) => {
     try {
-      const response = await fetch(`http://localhost:8080/custom_day/${year}/${month}`);
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/custom_day/${year}/${month}`);
       const data = await response.json();
       if (!response.ok) {
         throw new Error(data.message || '데이터를 가져오는데 실패했습니다.');
@@ -202,7 +202,7 @@ const handleDayUpdate = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/change_day', {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/change_day`, {
       method: 'PUT',
       body: formData,
     });
@@ -234,7 +234,7 @@ const handleCreateEvent = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/create_day', {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/create_day`, {
       method: 'POST',
       body: formData,
       headers: {
@@ -288,7 +288,7 @@ const handleCreateEvent = async () => {
     }
   
     try {
-      const response = await fetch('http://localhost:8080/deactivate_day', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/deactivate_day`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -319,7 +319,6 @@ const handleCreateEvent = async () => {
         <Box sx={{ flex: 1, display: 'flex', flexDirection: 'row', gap: 4, padding: 2 }}>
           {/* FullCalendar */}
           <Box sx={{ flex: 1 }}>
-             <Header/>
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"

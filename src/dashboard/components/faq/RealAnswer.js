@@ -16,7 +16,7 @@ const RealAnswer = () => {
   // 선택된 FAQ 정보 가져오기
   const fetchFaq = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/faq/${faq_no}`);
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/faq/${faq_no}`);
       const data = await response.json();
       setFaq(data);
       setSelectedCategory(data.category_id || ''); // 카테고리가 없으면 빈 값
@@ -29,7 +29,7 @@ const RealAnswer = () => {
   // FAQ 카테고리 목록 가져오기 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/faq_categories');
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/faq_categories`);
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -47,7 +47,7 @@ const RealAnswer = () => {
     const fetchCategoryName = async (category_id) => {
       try {
         console.log(`Fetching category name for category_id: ${category_id}`);
-        const response = await fetch(`http://localhost:8080/faq_category_name/${category_id}`, {
+        const response = await fetch(`${process.env.REACT_APP_DOMAIN}/faq_category_name/${category_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ const RealAnswer = () => {
         payload.category_id = selectedCategory;
       }
 
-      const response = await fetch(`http://localhost:8080/change_faq_state`, {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/change_faq_state`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ export default function MainGrid() {
 // 고객 수 세기
 const fetchCountUser = async () =>{
   try {
-    const response = await fetch('http://localhost:8080/count_users')
+    const response = await fetch('${process.env.REACT_APP_DOMAIN}/count_users')
     const data = await response.json()
     setCountUser(data)
   } catch (error) {

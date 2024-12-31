@@ -14,6 +14,7 @@ import { styled } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
+import Header from '../common/Header';
 
 const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -86,7 +87,7 @@ export default function Midcategory() {
 // 중분류 가져오기 
   const getCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8080/mid_category');
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/mid_category`);
       const data = await response.json();
       setMidCategories(data);
       // console.log(data);
@@ -97,7 +98,7 @@ export default function Midcategory() {
 // 대분류 가져오기
 const fetchCategories = async () => {
   try {
-    const response = await fetch('http://localhost:8080/big_category');
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/big_category`);
     const data = await response.json();
 
     // status=true인 데이터만 필터링
@@ -120,7 +121,7 @@ const handleDeactivate = async () => {
   if (!selectedSubcategory) return;
 
   try {
-    const response = await fetch(`http://localhost:8080/deactivate_subcategory/${selectedSubcategory.subcategory_no}`, {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/deactivate_subcategory/${selectedSubcategory.subcategory_no}`, {
       method: 'PUT',
     });
 
@@ -160,7 +161,7 @@ const handleDeactivate = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/create_mid_category', {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/create_mid_category`, {
       method: 'POST',
       body: formData,
     });
@@ -188,7 +189,7 @@ const handleOpen = async (subcategory) => {
 
   try {
     // 백엔드에서 guide_content와 guide_image를 가져오는 API 호출
-    const response = await fetch(`http://localhost:8080/guide/${subcategory.subcategory_no}`);
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/guide/${subcategory.subcategory_no}`);
     const data = await response.json();
 
     if (response.ok) {
@@ -236,7 +237,7 @@ const handleUpdate = async () => {
   }
 
   try {
-    const response = await fetch(`http://localhost:8080/update_mid_category`, {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/update_mid_category`, {
       method: 'PUT',
       body: formData,
     });
@@ -284,9 +285,11 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             중분류 관리
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleRegisterOpen} sx={{ mb: 2 }}>
-            등록
-          </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+  <Button variant="contained" color="primary" onClick={handleRegisterOpen}>
+    등록
+  </Button>
+</Box>
 
           <Grid container spacing={2} alignItems="center">
             {Object.entries(groupedCategories).map(([categoryId, category]) => (

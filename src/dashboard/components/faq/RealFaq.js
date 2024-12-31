@@ -5,6 +5,7 @@ import { alpha } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
 import SideMenu from '../common/SideMenu';
 import { useNavigate } from 'react-router-dom';
+import Header from '../common/Header';
 
 const FaqManagement = () => {
   const [faqs, setFaqs] = useState([]);
@@ -18,7 +19,7 @@ const FaqManagement = () => {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch('http://localhost:8080/all_faqs');
+        const response = await fetch(`${process.env.REACT_APP_DOMAIN}/all_faqs`);
         const data = await response.json();
 
         // 카테고리 이름 가져오기
@@ -52,7 +53,7 @@ const FaqManagement = () => {
 
     const fetchCategoryName = async (category_id) => {
       try {
-        const response = await fetch(`http://localhost:8080/faq_category_name/${category_id}`, {
+        const response = await fetch(`${process.env.REACT_APP_DOMAIN}/faq_category_name/${category_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -156,6 +157,7 @@ const FaqManagement = () => {
             p: 3,
           })}
         >
+             <Header />
           <h1 className="text-3xl font-bold mb-6">FAQ 관리</h1>
           <Grid container spacing={2} alignItems="center" sx={{ mb: 3 }}>
             <Grid item>

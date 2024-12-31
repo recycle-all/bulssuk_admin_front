@@ -21,11 +21,11 @@ const Usercheck = () => {
     const fetchData = async () => {
       try {
         // 1. 사용자 정보 가져오기
-        const usersResponse = await fetch('http://localhost:8080/users');
+        const usersResponse = await fetch(`${process.env.REACT_APP_DOMAIN}/users`);
         const usersData = await usersResponse.json();
   
         // 2. 포인트 정보 가져오기
-        const pointsResponse = await fetch('http://localhost:8080/point');
+        const pointsResponse = await fetch(`${process.env.REACT_APP_DOMAIN}/point`);
         const pointsData = await pointsResponse.json();
   
         // 3. 사용자와 포인트 데이터를 매핑
@@ -110,7 +110,6 @@ const Usercheck = () => {
             p: 3,
           })}
         >
-          <Header/>
           <Stack spacing={2} sx={{ height: '100%' }}>
             <h1 className="text-3xl font-bold mb-6">회원 조회</h1>
                       <Box sx={{ flexGrow: 1, width: '100%' }}>
