@@ -10,10 +10,14 @@ COPY package.json .
 # 패키지 설치
 RUN npm install
 
+# 환경 변수 설정 (빌드 시점에 사용)
+ARG REACT_APP_DOMAIN
+ENV REACT_APP_DOMAIN=$REACT_APP_DOMAIN
+
 # 나머지 소스코드 복사
 COPY . .
 
-# 빌드
+# 빌드 (환경 변수를 포함하여 빌드)
 RUN npm run build
 
 # nginx 이미지
@@ -26,11 +30,9 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf *
 
 # nginx 디렉토리에 리엑트 빌드 파일 복사
-# COPY --from=build /app/build .
-# Copy the built React app from the build stage to the Nginx HTML directory
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Copy the Nginx configuration file
+# nginx 설정 파일 복사
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 
 # nginx 포트 설정
