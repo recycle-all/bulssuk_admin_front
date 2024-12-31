@@ -310,8 +310,6 @@ const handleCreateEvent = async () => {
     }
   };
 
-  console.log(process.env.REACT_APP_DOMAIN)
-
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
