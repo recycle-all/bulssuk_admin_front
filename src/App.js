@@ -26,8 +26,8 @@ function App() {
           <AdminProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/sign_up" element={<Signup/>}/>
           <Route path="/usercheck" element={<Usercheck />} />
           <Route path="/userinfo/:user_no" element={<Userinfo/>}/>

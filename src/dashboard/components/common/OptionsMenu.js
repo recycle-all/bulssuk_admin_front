@@ -31,7 +31,7 @@ export default function OptionsMenu() {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('${process.env.REACT_APP_DOMAIN}/admin_logout', {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/admin_logout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export default function OptionsMenu() {
       localStorage.removeItem('token');
       localStorage.clear();
       // 로그인 페이지로 이동
-      navigate('/login');
+      navigate('/');
     } catch (error) {
       console.error('Logout failed:', error);
     }

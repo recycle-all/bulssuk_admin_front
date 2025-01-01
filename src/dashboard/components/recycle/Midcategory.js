@@ -231,7 +231,7 @@ const handleUpdate = async () => {
   formData.append('subcategory_no', selectedSubcategory.subcategory_no);
   formData.append('subcategory_name', newSubcategoryName);
   formData.append('guide_content', guideContent);
-
+    console.log(formData);
   if (newGuideImage) {
     formData.append('guide_img', newGuideImage);
   }
@@ -273,9 +273,7 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
   };
   return acc;
 }, {});
-  console.log("안뇽");
-  console.log("Mid Categories:", midCategories);
-  console.log("Grouped Categories: ", groupedCategories);
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -395,22 +393,24 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
     <Typography variant="h6" mb={2}>
       새 중분류 등록
     </Typography>
+
+    {/* 대분류 선택 */}
     <TextField
-  select
-  label="대분류 선택"
-  value={selectedCategoryId}
-  onChange={(e) => setSelectedCategoryId(e.target.value)} // 선택된 값 업데이트
-  fullWidth
-  margin="normal"
-  SelectProps={{ native: true }}
->
-  <option value=""></option>
-  {midCategories.map((category) => (
-    <option key={category.category_no} value={category.category_no}> {/* value에 category_no를 설정 */}
-      {category.category_name} {/* 화면에 표시되는 텍스트는 category_name */}
-    </option>
-  ))}
-</TextField>
+      select
+      label="대분류 선택"
+      value={selectedCategoryId}
+      onChange={(e) => setSelectedCategoryId(e.target.value)} // 선택된 값 업데이트
+      fullWidth
+      margin="normal"
+      SelectProps={{ native: true }}
+    >
+      <option value="">대분류를 선택하세요</option>
+      {bigCategories.map((category) => (
+        <option key={category.category_no} value={category.category_no}>
+          {category.category_name}
+        </option>
+      ))}
+    </TextField>
     {/* 중분류 이름 입력 */}
     <TextField
       label="중분류 이름"

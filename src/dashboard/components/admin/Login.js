@@ -32,7 +32,7 @@ const Login = () => {
       localStorage.setItem('admin_no', data.admin_no);
       localStorage.setItem('admin_email', data.admin_email);
 
-      navigate('/', { state: { admin_name: data.admin_name , admin_no : data.admin_no, admin_email:data.admin_email} });
+      navigate('/dashboard', { state: { admin_name: data.admin_name , admin_no : data.admin_no, admin_email:data.admin_email} });
 
     } catch (err) {
       setError(err.message);

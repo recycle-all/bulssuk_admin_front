@@ -38,7 +38,7 @@ const Signup = () => {
           }
     
           setMessage('회원가입이 완료되었습니다!');
-          navigate('/login');
+          navigate('/');
         } catch (err) {
           setError(err.message);
         }
