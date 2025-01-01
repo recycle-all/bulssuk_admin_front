@@ -6,6 +6,7 @@ import {
   Modal,
   TextField,
   Stack,
+  Typography,
 } from '@mui/material';
 import { MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -96,8 +97,9 @@ const Coupon = () => {
       coupon_quantity: '',
       expiration_date: '',
       admin_no: adminNo,
+      image: null, // 이미지 필드 초기화
     });
-    setPreviewImage(null);
+    setPreviewImage(null); // 미리보기 초기화
     setRegisterOpen(true);
   };
 
@@ -115,10 +117,11 @@ const Coupon = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData({ ...formData, image: file });
-      setPreviewImage(URL.createObjectURL(file));
+      setFormData({ ...formData, image: file }); // formData에 이미지 추가
+      setPreviewImage(URL.createObjectURL(file)); // 미리보기 이미지 설정
     }
   };
+  
 
   // 수정 요청 함수
   const handleUpdate = async () => {
@@ -196,7 +199,7 @@ const Coupon = () => {
     { field: 'coupon_name', headerName: '쿠폰 이름', flex: 1 },
     { field: 'coupon_type', headerName: '쿠폰 타입', flex: 1 },
     { field: 'expiration_date', headerName: '만료 날짜', flex: 1 },
-    { field: 'coupon_quantity', headername: '쿠폰 재고', flex: 1},
+    { field: 'coupon_quantity', headerName: '쿠폰 재고', flex: 1},
     // {
     //   field: 'status',
     //   headerName: '상태',
@@ -260,11 +263,25 @@ const Coupon = () => {
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <SideMenu />
-        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-          <h1>쿠폰 관리</h1>
-          <Button variant="contained" color="primary" onClick={handleRegisterOpen} sx={{ mb: 2 }}>
-            쿠폰 등록
-          </Button>
+        <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
+          <Typography variant="h4" fontWeight="bold" gutterBottom>
+            쿠폰 관리
+          </Typography>
+          <Box 
+  sx={{
+    display: 'flex',
+    justifyContent: 'flex-end', // 오른쪽 끝으로 정렬
+    mb: 3, // 아래 여백
+  }}
+>
+  <Button 
+    variant="contained" 
+    color="primary" 
+    onClick={handleRegisterOpen}
+  >
+    쿠폰 등록
+  </Button>
+</Box>
           <Box sx={{ height: 600, width: '100%' }}>
             <DataGrid
               rows={filteredCoupons}
@@ -339,64 +356,74 @@ const Coupon = () => {
           </Modal>
 
           {/* 등록 모달 */}
-          <Modal open={registerOpen} onClose={handleRegisterClose}>
-            <Box sx={modalStyle}>
-              <h2>쿠폰 등록</h2>
-              <TextField
-                label="쿠폰 이름"
-                name="coupon_name"
-                value={formData.coupon_name}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-              />
-              <TextField
-                label="쿠폰 타입"
-                name="coupon_type"
-                value={formData.coupon_type}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-              />
-            <FormControl fullWidth margin="normal">
-  <InputLabel id="coupon-quantity-label">쿠폰 재고</InputLabel>
-  <Select
-    labelId="coupon-quantity-label"
-    name="coupon_quantity"
-    value={formData.coupon_quantity} // 기본값
-    onChange={handleInputChange}
-  >
-     {Array.from({ length: 300 }, (_, i) => i ).map((quantity) => (
-      <MenuItem key={quantity} value={quantity}>
-        {quantity}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
-              <TextField
-                label="만료 날짜"
-                name="expiration_date"
-                type="date"
-                value={formData.expiration_date}
-                onChange={handleInputChange}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{ shrink: true }}
-              />
-              <Button component="label" fullWidth>
-                이미지 업로드
-                <input type="file" hidden onChange={handleImageChange} />
-              </Button>
-              <Stack direction="row" justifyContent="flex-end" spacing={2}>
-                <Button variant="outlined" onClick={handleRegisterClose}>
-                  취소
-                </Button>
-                <Button variant="contained" onClick={handleCreateCoupon}>
-                  등록
-                </Button>
-              </Stack>
-            </Box>
-          </Modal>
+         {/* 등록 모달 */}
+<Modal open={registerOpen} onClose={handleRegisterClose}>
+  <Box sx={modalStyle}>
+    <h2>쿠폰 등록</h2>
+    <TextField
+      label="쿠폰 이름"
+      name="coupon_name"
+      value={formData.coupon_name}
+      onChange={handleInputChange}
+      fullWidth
+      margin="normal"
+    />
+    <TextField
+      label="쿠폰 타입"
+      name="coupon_type"
+      value={formData.coupon_type}
+      onChange={handleInputChange}
+      fullWidth
+      margin="normal"
+    />
+    <FormControl fullWidth margin="normal">
+      <InputLabel id="coupon-quantity-label">쿠폰 재고</InputLabel>
+      <Select
+        labelId="coupon-quantity-label"
+        name="coupon_quantity"
+        value={formData.coupon_quantity}
+        onChange={handleInputChange}
+      >
+        {Array.from({ length: 300 }, (_, i) => i ).map((quantity) => (
+          <MenuItem key={quantity} value={quantity}>
+            {quantity}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+    <TextField
+      label="만료 날짜"
+      name="expiration_date"
+      type="date"
+      value={formData.expiration_date}
+      onChange={handleInputChange}
+      fullWidth
+      margin="normal"
+      InputLabelProps={{ shrink: true }}
+    />
+    {previewImage && (
+      <Box mb={2} display="flex" justifyContent="center">
+        <img
+          src={previewImage}
+          alt="Preview"
+          style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px' }}
+        />
+      </Box>
+    )}
+    <Button component="label" fullWidth>
+      이미지 업로드
+      <input type="file" hidden onChange={handleImageChange} />
+    </Button>
+    <Stack direction="row" justifyContent="flex-end" spacing={2}>
+      <Button variant="outlined" onClick={handleRegisterClose}>
+        취소
+      </Button>
+      <Button variant="contained" onClick={handleCreateCoupon}>
+        등록
+      </Button>
+    </Stack>
+  </Box>
+</Modal>
         </Box>
       </Box>
     </AppTheme>

@@ -246,9 +246,21 @@ export default function CompanyManagement() {
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             기업 관리
           </Typography>
-          <Button variant="contained" color="primary" onClick={handleRegisterOpen} sx={{ mb: 3 }}>
-            기업 등록
-          </Button>
+          <Box 
+  sx={{
+    display: 'flex',
+    justifyContent: 'flex-end', // 오른쪽 끝으로 정렬
+    mb: 3, // 아래 여백
+  }}
+>
+  <Button 
+    variant="contained" 
+    color="primary" 
+    onClick={handleRegisterOpen}
+  >
+    기업 등록
+  </Button>
+</Box>
           <Grid container spacing={3} justifyContent="flex-start" alignItems="stretch">
             {companies.map((company) => (
               <Grid item xs={12} sm={6} md={4} key={company.company_no} style={{ display: 'flex' }}>
