@@ -26,6 +26,7 @@ const CategoryCard = styled(Paper)(({ theme }) => ({
   justifyContent: 'flex-start',
   alignItems: 'center',
   borderRadius: '12px',
+  height: 'auto', // 높이를 자동으로 설정
   cursor: 'pointer',
   transition: '0.3s',
   '&:hover': {
@@ -33,8 +34,8 @@ const CategoryCard = styled(Paper)(({ theme }) => ({
     boxShadow: theme.shadows[3],
   },
   '& img': {
-    width: '80%',
-    height: '50%',
+    width: '180px', // 이미지 크기 고정
+    height: '180px', // 이미지 크기 고정
     marginBottom: theme.spacing(2),
     borderRadius: '8px',
     objectFit: 'cover', // 이미지 비율 유지
@@ -248,16 +249,29 @@ export default function CompanyManagement() {
           <Button variant="contained" color="primary" onClick={handleRegisterOpen} sx={{ mb: 3 }}>
             기업 등록
           </Button>
-          <Grid container spacing={3} justifyContent="flex-start">
+          <Grid container spacing={3} justifyContent="flex-start" alignItems="stretch">
             {companies.map((company) => (
-              <Grid item xs={12} sm={6} md={4} key={company.company_no}>
+              <Grid item xs={12} sm={6} md={4} key={company.company_no} style={{ display: 'flex' }}>
                 <CategoryCard onClick={() => handleOpen(company)}>
                   <img
                     src={company.company_img}
                     alt={company.company_name}
                   />
-                  <Typography variant="h6">{company.company_name}</Typography>
-                  <Typography variant="body2" color="textSecondary">
+                  <Typography 
+  variant="h6" 
+  sx={{ fontSize: '24px' }} // 원하는 글자 크기 설정
+>{company.company_name}</Typography>
+                  <Typography
+          variant="body2"
+          color="textSecondary"
+          sx={{
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: 8, // 최대 3줄 표시
+            WebkitBoxOrient: 'vertical',
+          }}
+        >
                     {company.company_content}
                   </Typography>
                 </CategoryCard>

@@ -129,6 +129,11 @@ const handleDeactivate = async () => {
       alert('Subcategory and related guides set to Inactive successfully!');
       setOpen(false);
       getCategories(); // 최신 데이터 불러오기
+      setSelectedCategoryId(''); // 대분류 선택 초기화
+      setNewCategoryName(''); // 중분류 이름 초기화
+      setNewGuideContent(''); // 세부내용 초기화
+      setGuideContent(''); // 세부내용 초기화
+      setNewCategoryImage(null); // 이미지 초기화
     } else {
       const data = await response.json();
       alert(data.error);
@@ -140,7 +145,14 @@ const handleDeactivate = async () => {
 
   // 등록 모달 열고 닫기
   const handleRegisterOpen = () => setRegisterOpen(true);
-  const handleRegisterClose = () => setRegisterOpen(false); 
+  const handleRegisterClose = () => {
+    setRegisterOpen(false);
+    setSelectedCategoryId(''); // 대분류 선택 초기화
+    setNewCategoryName(''); // 중분류 이름 초기화
+    setNewGuideContent(''); // 세부내용 초기화
+    setGuideContent(''); // 세부내용 초기화
+    setNewCategoryImage(null); // 이미지 초기화
+  };
   const handleNewImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -149,15 +161,19 @@ const handleDeactivate = async () => {
   };
   // 새로 등록 함수
  // 새 중분류 등록 함수
- const handleRegister = async () => {
+// 새 중분류 등록 함수
+const handleRegister = async () => {
   const formData = new FormData();
-  console.log(selectedCategoryId);
+
+  // 필요한 데이터 추가
+  formData.append('admin_no', localStorage.getItem('admin_no')); // 로컬 스토리지에서 admin_no 가져오기
   formData.append('category_no', selectedCategoryId);
   formData.append('subcategory_name', newCategoryName);
-  formData.append('guide_content', newGuideContent);
+  console.log(guideContent);
+  formData.append('guide_content', guideContent);
 
   if (newCategoryImage) {
-    formData.append('guide_img', newCategoryImage);
+    formData.append('guide_img', newCategoryImage); // 이미지 추가
   }
 
   try {
@@ -167,8 +183,14 @@ const handleDeactivate = async () => {
     });
 
     if (response.ok) {
+      console.log(formData)
       alert('새 중분류가 등록되었습니다!');
-      setRegisterOpen(false);
+      setRegisterOpen(false); // 모달 닫기
+      setSelectedCategoryId(''); // 대분류 선택 초기화
+      setNewCategoryName(''); // 중분류 이름 초기화
+      setNewGuideContent(''); // 세부내용 초기화
+      setGuideContent(''); // 세부내용 초기화
+      setNewCategoryImage(null); // 이미지 초기화
       getCategories(); // 등록 후 최신 데이터 가져오기
     } else {
       const data = await response.json();
@@ -178,6 +200,7 @@ const handleDeactivate = async () => {
     console.error('Error registering new subcategory:', error);
   }
 };
+
 
 
 
@@ -215,6 +238,9 @@ const handleOpen = async (subcategory) => {
   const handleClose = () => {
     setOpen(false);
     setGuideContent(''); // 세부내용 초기화
+    setNewCategoryImage(null); // 이미지 초기화
+    setSelectedCategoryId(''); // 대분류 선택 초기화
+    setNewCategoryName(''); // 중분류 이름 초기화
   };
 
 // 이미지 변경 처리
@@ -404,7 +430,7 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
       margin="normal"
       SelectProps={{ native: true }}
     >
-      <option value="">대분류를 선택하세요</option>
+      <option value=""></option>
       {bigCategories.map((category) => (
         <option key={category.category_no} value={category.category_no}>
           {category.category_name}
