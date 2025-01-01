@@ -12,11 +12,16 @@ import HighlightedCard from './HighlightedCard';
 import PageViewsBarChart from './PageViewsBarChart';
 import SessionsChart from './SessionsChart';
 import StatCard from './StatCard';
-
-
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function MainGrid() {
   const [countUser, setCountUser] = useState('')
+  const [notAnsweredInquiries, setNotAnsweredInquiries] = useState('')
+  const [events, setEvents] = useState([])
+  const [thisMonthEvents, setThisMonthEvents] = useState('')
+  const [inquiries, setInquiries] = useState([]); // 문의 데이터 상태 추가
 // 고객 수 세기
 const fetchCountUser = async () =>{
   try {
@@ -24,17 +29,73 @@ const fetchCountUser = async () =>{
     const data = await response.json()
     setCountUser(data)
   } catch (error) {
-    console.error('Error fetching countUsers:', error);
+    console.error('Error fetching users:', error);
   }
 }
 
+const fetchInquiries = async () => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/all_inquiries`);
+    const data = await response.json();
+    console.log('Fetched inquiries:', data); // API 응답 확인
+    setInquiries(
+      data.map((item, index) => ({
+        id: index + 1,
+        question_no: item.question_no,
+        question_title: item.question_title,
+        user_no: item.user_no,
+        created_at: item.created_at.slice(0, 10),
+        is_answered: item.is_answered,
+      }))
+    );
+  } catch (error) {
+    console.error('Error fetching inquiries:', error);
+  }
+};
 
+// 이번 달 이벤트 개수 가져오기
+const fetchThisMonthEvents = async() =>{
+  try {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/this_month_events`)
+    const data = await response.json()
+    setThisMonthEvents(data)
+  } catch (error) {
+    console.error('Error fetching this month events:', error);
+  }
+}
+const fetchEvents = async (year, month) => {
+  try {
+    const response = await fetch(`${process.env.REACT_APP_DOMAIN}/custom_day/${year}/${month}`);
+    const data = await response.json();
+    const formattedEvents = data.map((event) => ({
+      title: event.calendar_name,
+      start: event.calendar_date,
+    }));
+    setEvents(formattedEvents);
+  } catch (error) {
+    console.error('Error fetching events:', error);
+  }
+};
   useEffect(() => {
     fetchCountUser();
+    fetchInquiries()
+    fetchThisMonthEvents()
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear().toString();
+    const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    fetchEvents(currentYear, currentMonth);
   }, []);
+
+  const handleMonthChange = (info) => {
+    const newDate = new Date(info.view.currentStart);
+    const newYear = newDate.getFullYear().toString();
+    const newMonth = (newDate.getMonth() + 1).toString().padStart(2, '0');
+  
+    fetchEvents(newYear, newMonth); // 새로운 연도와 월로 이벤트 가져오기
+  };
   const data = [
     {
-      title: 'Users',
+      title: '고객 수',
       value: countUser,
       interval: 'Last 30 days',
       trend: 'up',
@@ -44,8 +105,8 @@ const fetchCountUser = async () =>{
       ],
     },
     {
-      title: 'Conversions',
-      value: '325',
+      title: '대기중 문의',
+      value: notAnsweredInquiries,
       interval: 'Last 30 days',
       trend: 'down',
       data: [
@@ -54,8 +115,8 @@ const fetchCountUser = async () =>{
       ],
     },
     {
-      title: 'Event count',
-      value: '200k',
+      title: '이번 달 행사',
+      value: thisMonthEvents,
       interval: 'Last 30 days',
       trend: 'neutral',
       data: [
@@ -64,7 +125,23 @@ const fetchCountUser = async () =>{
       ],
     },
   ];
-  console.log(countUser);
+  // DataGrid의 columns 정의
+  const columns = [
+    { field: 'id', headerName: 'No', width: 90 },
+    { field: 'question_title', headerName: '문의 제목', flex: 1 },
+    // { field: 'user_no', headerName: '회원 번호', flex: 1 },
+    { field: 'created_at', headerName: '날짜', flex: 1 },
+    {
+      field: 'is_answered',
+      headerName: '상태',
+      flex: 1,
+      renderCell: (params) => (
+        <span style={{ color: params.value === '답변 완료' ? 'green' : 'red' }}>
+          {params.value}
+        </span>
+      ),
+    },
+  ];
   return (
     <Box sx={{ width: '100%', maxWidth: { sm: '100%', md: '1700px' } }}>
       {/* cards */}
@@ -86,23 +163,52 @@ const fetchCountUser = async () =>{
           <HighlightedCard />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <SessionsChart />
+      {/* FullCalendar 추가 */}
+      <Box sx={{ padding: 2, backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+  <Typography variant="h6" sx={{ mb: 2 }}>
+    Calendar
+  </Typography>
+  <FullCalendar
+  plugins={[dayGridPlugin]}
+  initialView="dayGridMonth"
+  events={events}
+  datesSet={handleMonthChange} // 월 변경 이벤트
+  height="auto"
+/>
+</Box>
+
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <PageViewsBarChart />
+          {/* 문의 리스트 표시 */}
+          <Box sx={{ padding: 2, backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          문의
+        </Typography>
+        <DataGrid
+          rows={inquiries}
+          columns={columns} // columns를 여기서 참조
+          pageSize={5}
+          autoHeight
+          sx={{
+            '& .MuiDataGrid-row': {
+              borderBottom: '1px solid #ccc',
+            },
+          }}
+        />
+      </Box>
         </Grid>
       </Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
-        Details
+        {/* Details */}
       </Typography>
       <Grid container spacing={2} columns={12}>
         <Grid size={{ xs: 12, lg: 9 }}>
-          <CustomizedDataGrid />
+          {/* <CustomizedDataGrid /> */}
         </Grid>
         <Grid size={{ xs: 12, lg: 3 }}>
           <Stack gap={2} direction={{ xs: 'column', sm: 'row', lg: 'column' }}>
-            <CustomizedTreeView />
-            <ChartUserByCountry />
+            {/* <CustomizedTreeView /> */}
+            {/* <ChartUserByCountry /> */}
           </Stack>
         </Grid>
       </Grid>

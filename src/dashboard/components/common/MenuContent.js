@@ -5,7 +5,7 @@ import { HomeRounded, PeopleRounded, AnalyticsRounded, AssignmentRounded, Expand
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const mainListItems = [
-  { text: '홈', icon: <HomeRounded />, path: '/' },
+  { text: '홈', icon: <HomeRounded />, path: '/dashboard' },
   { text: '고객 관리', icon: <PeopleRounded />, path: '/usercheck' },
   { 
     text: '분리수거 관리', 
