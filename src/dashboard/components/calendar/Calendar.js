@@ -309,7 +309,7 @@ const handleCreateEvent = async () => {
       alert('서버 오류가 발생했습니다.');
     }
   };
-  
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
