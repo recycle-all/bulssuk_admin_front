@@ -504,5 +504,3 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
     </AppTheme>
   );
 }
-
-
