@@ -37,7 +37,7 @@ const mainListItems = [
     icon: <AssignmentRounded />,  
     subItems: [
       { text: '나무 관리', path: '/tree_info' },
-      { text: '기능 관리', path: '/tree_manage' }
+      { text: '기능 관리', path: '/tree_function' }
     ]
   },
   { text: '쿠폰 관리', icon: <AssignmentRounded />, path: '/coupons' },
