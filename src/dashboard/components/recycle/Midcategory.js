@@ -218,6 +218,7 @@ const handleOpen = async (subcategory) => {
     if (response.ok) {
       setGuideContent(data.guide_content || '');
       setGuideImage(data.guide_img || null); // guide_image 설정
+      console.log(guideImage);
     } else {
       console.error('Failed to fetch guide content:', data.error);
       setGuideContent('');
