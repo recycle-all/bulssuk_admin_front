@@ -102,7 +102,7 @@ const Faq = () => {
           variant="contained"
           sx={{
             backgroundColor: '#e0e0e0',
-            color: 'black',
+            color: 'white',
             '&:hover': {
               backgroundColor: '#bdbdbd',
             },

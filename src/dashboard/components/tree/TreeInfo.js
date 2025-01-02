@@ -46,7 +46,7 @@ const modalStyle = {
   transform: 'translate(-50%, -50%)',
   width: '40vw',
   maxHeight: '90vh',
-  height: '60vh',
+  height: '55vh',
   overflowY: 'auto',
   bgcolor: 'background.paper',
   boxShadow: 24,
