@@ -147,7 +147,9 @@ const TreeFunction = () => {
     if (newImage) {
       formData.append('image', newImage);
     }
-
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+  }
     try {
       const response = await fetch(`${process.env.REACT_APP_DOMAIN}/update_function`, {
         method: 'PUT',
@@ -205,9 +207,9 @@ const TreeFunction = () => {
               기능 추가
             </Button>
           </Box>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} justifyContent="center">
             {functions.map((func) => (
-              <Grid item key={func.tree_manage_no} xs={12} sm={6} md={3}>
+              <Grid item key={func.tree_manage_no} xs={12} sm={4} md={4}>
                 <TreeCard onClick={() => handleOpenEdit(func)}>
                   <img src={func.manage_img} alt={func.tree_manage} />
                   <Typography variant="h6">{func.tree_manage}</Typography>

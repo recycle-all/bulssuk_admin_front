@@ -37,14 +37,21 @@ const fetchInquiries = async () => {
   try {
     const response = await fetch(`${process.env.REACT_APP_DOMAIN}/all_inquiries`);
     const data = await response.json();
-    console.log('Fetched inquiries:', data); // API 응답 확인
+
+    // 필터링: "답변 대기" 상태만 가져오기
+    const filteredData = data
+      .filter((item) => item.is_answered === '답변 대기')
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // 최신순 정렬
+      .slice(0, 10); // 최대 10개 가져오기
+
+    console.log('Filtered inquiries:', filteredData); // 필터링된 데이터 확인
     setInquiries(
-      data.map((item, index) => ({
+      filteredData.map((item, index) => ({
         id: index + 1,
         question_no: item.question_no,
         question_title: item.question_title,
         user_no: item.user_no,
-        created_at: item.created_at.slice(0, 10),
+        created_at: item.created_at.slice(0, 10), // 날짜 형식 변경
         is_answered: item.is_answered,
       }))
     );

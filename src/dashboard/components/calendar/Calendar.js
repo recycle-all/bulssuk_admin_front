@@ -258,7 +258,16 @@ const handleCreateEvent = async () => {
 
   const renderEventContent = (eventInfo) => {
     return (
-      <Box display="flex" flexDirection="column" alignItems="center">
+      <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      sx={{
+        whiteSpace: 'normal', // 줄바꿈 허용
+        overflow: 'hidden', // 넘치는 내용 숨김
+        textOverflow: 'ellipsis', // 말줄임 표시
+      }}
+    >
         {eventInfo.event.extendedProps.image && (
           <img
             src={eventInfo.event.extendedProps.image}
