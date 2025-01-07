@@ -56,8 +56,15 @@ const Coupon = () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_DOMAIN}/coupons`);
       const data = await response.json();
-      setCoupons(data);
-      setFilteredCoupons(data);
+  
+      // 날짜 변환 후 상태에 저장
+      const formattedData = data.map((coupon) => ({
+        ...coupon,
+        expiration_date: coupon.expiration_date.split('T')[0], // T 이전 부분만 추출 (년-월-일)
+      }));
+  
+      setCoupons(formattedData);
+      setFilteredCoupons(formattedData);
     } catch (error) {
       console.error('Error fetching coupons:', error);
     }
@@ -70,7 +77,6 @@ const Coupon = () => {
   // 수정 모달 열기
   const handleOpen = (coupon) => {
     setSelectedCoupon(coupon);
-    console.log(coupon);
     setFormData({
       coupon_name: coupon.coupon_name,
       coupon_type: coupon.coupon_type,
@@ -80,9 +86,7 @@ const Coupon = () => {
     });
     setPreviewImage(coupon.coupon_img);
     setOpen(true);
-    console.log(formData.expiration_date);
   };
-
   const handleClose = () => {
     setOpen(false);
     setSelectedCoupon(null);
