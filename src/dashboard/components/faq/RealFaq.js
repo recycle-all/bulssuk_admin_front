@@ -110,21 +110,21 @@ const FaqManagement = () => {
       width: 150,
       headerClassName: 'header-style',
       renderCell: (params) => (
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: '#e0e0e0',
-            color: 'black',
-            '&:hover': {
-              backgroundColor: '#bdbdbd',
-            },
-            textTransform: 'none',
-          }}
-          size="small"
-          onClick={() => navigate(`/faq/${params.row.id}`)} // 상세보기 클릭 시 /faq/:faq_no로 이동
-        >
-          확인
-        </Button>
+       <Button
+  variant="contained"
+  sx={{
+    backgroundColor: '#e0e0e0',
+    color: 'white', // 글자 색을 흰색으로 설정
+    '&:hover': {
+      backgroundColor: '#bdbdbd',
+    },
+    textTransform: 'none',
+  }}
+  size="small"
+  onClick={() => navigate(`/faq/${params.row.id}`)} // 상세보기 클릭 시 /faq/:faq_no로 이동
+>
+  확인
+</Button>
       ),
     },
   ];
