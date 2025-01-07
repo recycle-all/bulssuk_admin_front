@@ -21,6 +21,7 @@ import RealAnswer from './dashboard/components/faq/RealAnswer';
 import Coupon from './dashboard/components/coupon/Coupon'
 import TreeInfo from './dashboard/components/tree/TreeInfo';
 import TreeFunction from './dashboard/components/tree/TreeFunction';
+import Vote from './dashboard/components/vote/Vote';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/coupons" element={<Coupon/>}/>
           <Route path="/tree_info" element={<TreeInfo/>}/>
           <Route path="/tree_function" element={<TreeFunction/>}/>
+          <Route path="/votes" element={<Vote/>}/>
           {/* <Route path="/tree" element={<} */}
         </Routes>
       </Router>

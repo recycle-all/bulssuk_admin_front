@@ -41,6 +41,7 @@ const mainListItems = [
     ]
   },
   { text: '쿠폰 관리', icon: <AssignmentRounded />, path: '/coupons' },
+  { text: '투표 관리', icon: <AssignmentRounded />, path: '/votes' },
 ];
 
 export default function MenuContent() {

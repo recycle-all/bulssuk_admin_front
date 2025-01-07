@@ -17,7 +17,7 @@ const TreeCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   textAlign: 'center',
   color: theme.palette.text.primary,
-  height: '250px',
+  height: '200px',
   width: '200px',
   display: 'flex',
   flexDirection: 'column',
@@ -207,16 +207,16 @@ const TreeFunction = () => {
               기능 추가
             </Button>
           </Box>
-          <Grid container spacing={2} justifyContent="center">
-            {functions.map((func) => (
-              <Grid item key={func.tree_manage_no} xs={12} sm={4} md={4}>
-                <TreeCard onClick={() => handleOpenEdit(func)}>
-                  <img src={func.manage_img} alt={func.tree_manage} />
-                  <Typography variant="h6">{func.tree_manage}</Typography>
-                </TreeCard>
-              </Grid>
-            ))}
-          </Grid>
+          <Grid container spacing={2} justifyContent="flex-start">
+  {functions.map((func) => (
+    <Grid item key={func.tree_manage_no} xs={12} sm={2} md={2}>
+      <TreeCard onClick={() => handleOpenEdit(func)}>
+        <img src={func.manage_img} alt={func.tree_manage} />
+        <Typography variant="h6">{func.tree_manage}</Typography>
+      </TreeCard>
+    </Grid>
+  ))}
+</Grid>
 
           {isAdding && (
             <Modal open={isAdding} onClose={handleClose}>

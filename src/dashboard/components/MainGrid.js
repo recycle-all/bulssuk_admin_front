@@ -42,7 +42,7 @@ const fetchInquiries = async () => {
     const filteredData = data
       .filter((item) => item.is_answered === '답변 대기')
       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at)) // 최신순 정렬
-      .slice(0, 10); // 최대 10개 가져오기
+      .slice(0, 8); // 최대 10개 가져오기
 
     console.log('Filtered inquiries:', filteredData); // 필터링된 데이터 확인
     setInquiries(

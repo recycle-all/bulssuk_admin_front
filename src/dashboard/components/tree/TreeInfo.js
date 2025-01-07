@@ -20,7 +20,7 @@ const TreeCard = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.primary,
   height: '250px',
-  width: '350px',
+  width: '250px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -225,9 +225,9 @@ const handleDeactivate = async () => {
               나무 추가
             </Button>
           </Box>
-          <Grid container spacing={4}>
+          <Grid container spacing={4} justifyContent="flex-start">
   {trees.map((tree) => (
-    <Grid item key={tree.tree_info_no} xs={12} sm={6} md={4}>
+    <Grid item key={tree.tree_info_no} xs={12} sm={6} md={2.4}>
       <TreeCard onClick={() => handleOpenEdit(tree)}>
         <img src={tree.tree_img} alt={tree.tree_info} />
         <Typography variant="h6">{tree.tree_info}</Typography>
@@ -236,6 +236,7 @@ const handleDeactivate = async () => {
     </Grid>
   ))}
 </Grid>
+
 
           {/* 추가 모달 */}
           <Modal open={isAdding} onClose={handleClose}>
