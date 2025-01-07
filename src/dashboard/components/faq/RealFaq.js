@@ -110,7 +110,7 @@ const FaqManagement = () => {
       width: 150,
       headerClassName: 'header-style',
       renderCell: (params) => (
-<Button
+       <Button
   variant="contained"
   sx={{
     backgroundColor: '#e0e0e0',
