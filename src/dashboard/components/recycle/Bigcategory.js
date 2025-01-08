@@ -12,7 +12,8 @@ const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   textAlign: 'center',
   color: theme.palette.text.primary,
-  height: '100px',
+  height: '200px',
+  width: '200px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -219,7 +220,7 @@ return (
 
         <Grid container spacing={3}>
           {bigCategory.map((category, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
+            <Grid item xs={12} sm={2.4} md={2.4} key={index}>
               <CategoryCard elevation={2} onClick={() => handleOpen(category)}>
                 <img src={category.category_img} alt={category.category_name} />
                 <Typography variant="h6">{category.category_name}</Typography>

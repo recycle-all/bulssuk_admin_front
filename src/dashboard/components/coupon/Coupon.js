@@ -264,37 +264,37 @@ const Coupon = () => {
 
   return (
     <AppTheme>
-      <CssBaseline enableColorScheme />
-      <Box sx={{ display: 'flex', height: '100vh' }}>
-        <SideMenu />
-        <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
-          <Typography variant="h4" fontWeight="bold" gutterBottom>
-            쿠폰 관리
-          </Typography>
-          <Box 
+    <CssBaseline enableColorScheme />
+    <Box
   sx={{
     display: 'flex',
-    justifyContent: 'flex-end', // 오른쪽 끝으로 정렬
-    mb: 3, // 아래 여백
+    height: '100vh',
+    overflowY: 'auto', // 세로 스크롤 허용
+    overflowX: 'hidden', // 가로 스크롤 방지
   }}
 >
-  <Button 
-    variant="contained" 
-    color="primary" 
-    onClick={handleRegisterOpen}
-  >
-    쿠폰 등록
-  </Button>
+      <SideMenu />
+      <Box component="main" sx={{ flexGrow: 1, p: 4,  maxWidth: 'calc(100vw - 240px)', // 화면 너비에서 사이드바 너비를 뺌, overflowX: 'hidden',
+           overflowX: 'hidden', // 가로 스크롤 제거
+       }}>
+        <Typography variant="h4" fontWeight="bold" gutterBottom>
+          쿠폰 관리
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+          <Button variant="contained" color="primary" onClick={handleRegisterOpen}>
+            쿠폰 등록
+          </Button>
+        </Box>
+        <Box sx={{ flexGrow: 1, width: '100%' }}>
+  <DataGrid
+    rows={filteredCoupons}
+    columns={columns}
+    getRowId={(row) => row.coupon_no}
+    pageSize={10}
+    autoHeight // 데이터 그리드 높이를 자동으로 조정
+  />
 </Box>
-          <Box sx={{ height: 600, width: '100%' }}>
-            <DataGrid
-              rows={filteredCoupons}
-              columns={columns}
-              getRowId={(row) => row.coupon_no}
-              pageSize={10}
-            />
-          </Box>
-
+  
           {/* 수정 모달 */}
           <Modal open={open} onClose={handleClose}>
             <Box sx={modalStyle}>

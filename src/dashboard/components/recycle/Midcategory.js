@@ -20,8 +20,8 @@ const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   textAlign: 'center',
   color: theme.palette.text.primary,
-  height: '150px',
-  width: '200px',
+  height: '180px',
+  width: '180px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -41,8 +41,8 @@ const CategoryCard = styled(Paper)(({ theme }) => ({
 }));
 
 const SubcategoryItem = styled(Paper)(({ theme }) => ({
-  width: '110px',
-  height: '110px',
+  width: '130px',
+  height: '130px',
   padding: '8px',
   borderRadius: '8px',
   backgroundColor: alpha(theme.palette.grey[200], 0.5),
@@ -306,7 +306,7 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <SideMenu />
-        <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 4, mb: 10 }}>
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             중분류 관리
           </Typography>
@@ -316,31 +316,28 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
   </Button>
 </Box>
 
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={4} alignItems="center" >
             {Object.entries(groupedCategories).map(([categoryId, category]) => (
               <Grid container item key={categoryId} alignItems="center">
-                <Grid item xs={3} sx={{ ml: 4 }}>
-                  <CategoryCard elevation={3}>
-                    <img src={category.category_img} alt={category.category_name} />
-                    <Typography variant="h6">{category.category_name}</Typography>
-                  </CategoryCard>
-                </Grid>
-                <Grid item xs={8} sx={{ ml: 2 }}>
-                  <Box display="flex" flexWrap="wrap">
-                    {category.subcategories.length > 0 ? (
-                      category.subcategories.map((subcategory) => (
-                        <SubcategoryItem key={subcategory.subcategory_no} onClick={() => handleOpen(subcategory)}>
-                          {subcategory.subcategory_name}
-                        </SubcategoryItem>
-                      ))
-                    ) : (
-                      <Typography variant="body2" color="textSecondary">
-                        그만하자
-                      </Typography>
-                    )}
-                  </Box>
-                </Grid>
-              </Grid>
+  {/* 대분류 */}
+  <Grid item xs={3} sx={{ ml: 10}} > {/* 기존 ml 값을 3 또는 원하는 값으로 설정 */}
+    <CategoryCard elevation={3}>
+      <img src={category.category_img} alt={category.category_name} />
+      <Typography variant="h6">{category.category_name}</Typography>
+    </CategoryCard>
+  </Grid>
+  {/* 소분류 */}
+  <Grid item xs={8} sx={{ ml: -19 }}> {/* 소분류의 간격 유지 */}
+    <Box display="flex" flexWrap="wrap" gap={0.5}>
+      {category.subcategories.map((subcategory) => (
+        <SubcategoryItem key={subcategory.subcategory_no} onClick={() => handleOpen(subcategory)}>
+  {subcategory.subcategory_name}
+</SubcategoryItem>
+      ))}
+    </Box>
+  </Grid>
+</Grid>
+
             ))}
           </Grid>
 
