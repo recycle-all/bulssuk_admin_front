@@ -14,6 +14,7 @@ import { alpha } from '@mui/material/styles';
 import AppTheme from '../../../shared-theme/AppTheme';
 import SideMenu from '../common/SideMenu';
 import Header from '../common/Header';
+import Copyright from '../../internals/components/Copyright';
 
 const modalStyle = {
   position: 'absolute',
@@ -263,6 +264,7 @@ const Coupon = () => {
   }
 
   return (
+    <>
     <AppTheme>
     <CssBaseline enableColorScheme />
     <Box
@@ -431,6 +433,8 @@ const Coupon = () => {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

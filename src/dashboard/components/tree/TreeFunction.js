@@ -12,6 +12,7 @@ import {
 import { styled } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
+import Copyright from '../../internals/components/Copyright';
 
 const TreeCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -195,6 +196,7 @@ const TreeFunction = () => {
   };
 
   return (
+    <>
     <AppTheme>
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <SideMenu />
@@ -313,6 +315,8 @@ const TreeFunction = () => {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

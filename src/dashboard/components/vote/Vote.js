@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { alpha } from "@mui/material/styles";
 import AppTheme from "../../../shared-theme/AppTheme"; // AppTheme 컴포넌트 import
 import SideMenu from "../common/SideMenu"; // 사이드 메뉴 import
+import Copyright from "../../internals/components/Copyright";
 
 // 결과 한글 변환을 위한 매핑
 const translationMap = {
@@ -56,6 +57,7 @@ const Vote = () => {
   };
 
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: "flex", height: "100vh" }}>
@@ -249,6 +251,8 @@ const Vote = () => {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

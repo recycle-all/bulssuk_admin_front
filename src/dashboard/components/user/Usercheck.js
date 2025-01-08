@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
+import Copyright from '../../internals/components/Copyright';
 
 const Usercheck = () => {
   const [users, setUsers] = useState([]);
@@ -116,6 +117,7 @@ const Usercheck = () => {
   }));
 
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -166,6 +168,8 @@ const Usercheck = () => {
         </Box>
       </Box>
     </AppTheme>
+      <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

@@ -15,6 +15,7 @@ import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
 import Header from '../common/Header'
+import Copyright from '../../internals/components/Copyright';
 const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   textAlign: 'center',
@@ -237,6 +238,7 @@ export default function CompanyManagement() {
   };
   console.log(companyProducts);
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -468,6 +470,8 @@ export default function CompanyManagement() {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 }
 

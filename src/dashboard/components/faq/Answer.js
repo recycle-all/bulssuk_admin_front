@@ -4,6 +4,7 @@ import { Box, CssBaseline, Typography, Grid, TextField, Button, Paper } from '@m
 import SideMenu from '../common/SideMenu';
 import { alpha } from '@mui/material/styles';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Copyright from '../../internals/components/Copyright';
 
 const Answer = () => {
   const [inquiry, setInquiry] = useState([]); // 문의 데이터
@@ -148,6 +149,7 @@ const Answer = () => {
   }
 
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -300,6 +302,8 @@ const Answer = () => {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

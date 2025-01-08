@@ -15,6 +15,7 @@ import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
 import Header from '../common/Header';
+import Copyright from '../../internals/components/Copyright';
 
 const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -301,203 +302,212 @@ const groupedCategories = bigCategories.reduce((acc, bigCategory) => {
   return acc;
 }, {});
 
-  return (
-    <AppTheme>
-      <CssBaseline enableColorScheme />
-      <Box sx={{ display: 'flex', height: '100vh' }}>
+return (
+  <AppTheme>
+    <CssBaseline enableColorScheme />
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Box sx={{ flexGrow: 1, display: 'flex' }}>
         <SideMenu />
-        <Box component="main" sx={{ flexGrow: 1, p: 4, mb: 10 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
           <Typography variant="h4" fontWeight="bold" gutterBottom>
             중분류 관리
           </Typography>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-  <Button variant="contained" color="primary" onClick={handleRegisterOpen}>
-    등록
-  </Button>
-</Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+            <Button variant="contained" color="primary" onClick={handleRegisterOpen}>
+              등록
+            </Button>
+          </Box>
 
-          <Grid container spacing={4} alignItems="center" >
+          <Grid container spacing={4}>
             {Object.entries(groupedCategories).map(([categoryId, category]) => (
               <Grid container item key={categoryId} alignItems="center">
-  {/* 대분류 */}
-  <Grid item xs={3} sx={{ ml: 10}} > {/* 기존 ml 값을 3 또는 원하는 값으로 설정 */}
-    <CategoryCard elevation={3}>
-      <img src={category.category_img} alt={category.category_name} />
-      <Typography variant="h6">{category.category_name}</Typography>
-    </CategoryCard>
-  </Grid>
-  {/* 소분류 */}
-  <Grid item xs={8} sx={{ ml: -19 }}> {/* 소분류의 간격 유지 */}
-    <Box display="flex" flexWrap="wrap" gap={0.5}>
-      {category.subcategories.map((subcategory) => (
-        <SubcategoryItem key={subcategory.subcategory_no} onClick={() => handleOpen(subcategory)}>
-  {subcategory.subcategory_name}
-</SubcategoryItem>
-      ))}
-    </Box>
-  </Grid>
-</Grid>
-
+                {/* 대분류 */}
+                <Grid item xs={2} sx={{ ml: 2 }}> {/* xs 값을 줄이고 왼쪽 여백 조정 */}
+                  <CategoryCard>
+                    <img src={category.category_img} alt={category.category_name} />
+                    <Typography variant="h6">{category.category_name}</Typography>
+                  </CategoryCard>
+                </Grid>
+                {/* 소분류 */}
+                <Grid item xs={9} sx={{ ml: -2 }}> {/* ml 값을 0으로 조정 */}
+                <Box display="flex" flexWrap="wrap" gap={1}> {/* gap 값을 작게 설정 */}
+                    {category.subcategories.map((subcategory) => (
+                      <SubcategoryItem
+                        key={subcategory.subcategory_no}
+                        onClick={() => handleOpen(subcategory)}
+                      >
+                        {subcategory.subcategory_name}
+                      </SubcategoryItem>
+                    ))}
+                  </Box>
+                </Grid>
+              </Grid>
             ))}
           </Grid>
-
-          {/* 중분류 수정 모달 */}
-          <Modal open={open} onClose={handleClose}>
-  <Box sx={modalStyle}>
-    <Typography variant="h6" mb={2}>중분류 수정</Typography>
-
-    {/* 카테고리 이름 표시 */}
-    <Typography variant="subtitle1" mb={1}>
-      대분류: {selectedSubcategory?.category_name}
-    </Typography>
-
-    {/* 중분류 이름 수정 */}
-    <TextField
-      label="중분류 이름"
-      value={newSubcategoryName}
-      onChange={(e) => setNewSubcategoryName(e.target.value)}
-      fullWidth
-      margin="normal"
-    />
-
-    {/* 기존 이미지 미리 보기 */}
-    <Box mb={2} display="flex" flexDirection="column" alignItems="center" gap={2}>
-      {guideImage && (
-        <img
-          src={guideImage}
-          alt="Guide"
-          style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '8px' }}
-        />
-      )}
-      <Button variant="contained" component="label" fullWidth>
-        이미지 수정
-        <input type="file" hidden onChange={handleImageChange} />
-      </Button>
-    </Box>
-
-    {/* 세부내용 수정 */}
-    <TextField
-  fullWidth
-  label="세부내용"
-  value={guideContent}
-  onChange={(e) => setGuideContent(e.target.value)}
-  multiline
-  rows={12} // 기본 높이를 늘림
-  margin="normal"
-  variant="outlined"
-  InputLabelProps={{ shrink: true }}
-  sx={{
-    '& .MuiInputBase-root': {
-      alignItems: 'flex-start', // 텍스트를 위쪽 정렬
-      height: 'auto', // 높이를 내용에 맞춤
-    },
-    '& .MuiInputBase-input': {
-      padding: '8px', // 내부 패딩 조정
-    },
-  }}
-/>
-
-    {/* 버튼 그룹: 삭제, 취소, 수정 */}
-    <Stack direction="row" justifyContent="flex-end" spacing={2} mt={2}>
-      <Button variant="contained" color="error" onClick={handleDeactivate}>
-        삭제
-      </Button>
-      <Button variant="outlined" onClick={handleClose}>
-        취소
-      </Button>
-      <Button variant="contained" color="primary" onClick={handleUpdate}>
-        수정
-      </Button>
-    </Stack>
-  </Box>
-</Modal>
-{/* 새로운 항목 추가 모달 */}
-<Modal open={registerOpen} onClose={handleRegisterClose}>
-  <Box sx={modalStyle}>
-    <Typography variant="h6" mb={2}>
-      새 중분류 등록
-    </Typography>
-
-    {/* 대분류 선택 */}
-    <TextField
-      select
-      label="대분류 선택"
-      value={selectedCategoryId}
-      onChange={(e) => setSelectedCategoryId(e.target.value)} // 선택된 값 업데이트
-      fullWidth
-      margin="normal"
-      SelectProps={{ native: true }}
-    >
-      <option value=""></option>
-      {bigCategories.map((category) => (
-        <option key={category.category_no} value={category.category_no}>
-          {category.category_name}
-        </option>
-      ))}
-    </TextField>
-    {/* 중분류 이름 입력 */}
-    <TextField
-      label="중분류 이름"
-      value={newCategoryName}
-      onChange={(e) => setNewCategoryName(e.target.value)}
-      fullWidth
-      margin="normal"
-    />
-
- 
-
-    {/* 이미지 미리보기 */}
-    {newCategoryImage && (
-      <Box mb={2} display="flex" flexDirection="column" alignItems="center" gap={2}>
-        <img
-          src={URL.createObjectURL(newCategoryImage)}
-          alt="New Guide"
-          style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '8px' }}
-        />
-      </Box>
-    )}
-   {/* 이미지 업로드 버튼 */}
-   <Button variant="contained" component="label" fullWidth sx={{ mb: 2 }}>
-      이미지 업로드
-      <input type="file" hidden onChange={handleNewImageChange} />
-    </Button>
-    {/* 세부내용 입력 */}
-    <TextField
-  fullWidth
-  label="세부내용"
-  value={guideContent}
-  onChange={(e) => setGuideContent(e.target.value)}
-  multiline
-  rows={12} // 기본 높이를 늘림
-  margin="normal"
-  variant="outlined"
-  InputLabelProps={{ shrink: true }}
-  sx={{
-    '& .MuiInputBase-root': {
-      alignItems: 'flex-start', // 텍스트를 위쪽 정렬
-      height: 'auto', // 높이를 내용에 맞춤
-    },
-    '& .MuiInputBase-input': {
-      padding: '8px', // 내부 패딩 조정
-    },
-  }}
-/>
-
-    {/* 등록 및 취소 버튼 */}
-    <Stack direction="row" justifyContent="flex-end" spacing={2} mt={2}>
-      <Button variant="outlined" onClick={handleRegisterClose}>
-        취소
-      </Button>
-      <Button variant="contained" color="primary" onClick={handleRegister}>
-        등록
-      </Button>
-    </Stack>
-  </Box>
-</Modal>
-
-
         </Box>
       </Box>
-    </AppTheme>
-  );
+
+      {/* 중분류 수정 모달 */}
+      <Modal open={open} onClose={handleClose}>
+        <Box sx={modalStyle}>
+          <Typography variant="h6" mb={2}>
+            중분류 수정
+          </Typography>
+
+          {/* 카테고리 이름 표시 */}
+          <Typography variant="subtitle1" mb={1}>
+            대분류: {selectedSubcategory?.category_name}
+          </Typography>
+
+          {/* 중분류 이름 수정 */}
+          <TextField
+            label="중분류 이름"
+            value={newSubcategoryName}
+            onChange={(e) => setNewSubcategoryName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+
+          {/* 기존 이미지 미리 보기 */}
+          <Box mb={2} display="flex" flexDirection="column" alignItems="center" gap={2}>
+            {guideImage && (
+              <img
+                src={guideImage}
+                alt="Guide"
+                style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '8px' }}
+              />
+            )}
+            <Button variant="contained" component="label" fullWidth>
+              이미지 수정
+              <input type="file" hidden onChange={handleImageChange} />
+            </Button>
+          </Box>
+
+          {/* 세부내용 수정 */}
+          <TextField
+            fullWidth
+            label="세부내용"
+            value={guideContent}
+            onChange={(e) => setGuideContent(e.target.value)}
+            multiline
+            rows={12}
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              '& .MuiInputBase-root': {
+                alignItems: 'flex-start',
+                height: 'auto',
+              },
+              '& .MuiInputBase-input': {
+                padding: '8px',
+              },
+            }}
+          />
+
+          {/* 버튼 그룹: 삭제, 취소, 수정 */}
+          <Stack direction="row" justifyContent="flex-end" spacing={2} mt={2}>
+            <Button variant="contained" color="error" onClick={handleDeactivate}>
+              삭제
+            </Button>
+            <Button variant="outlined" onClick={handleClose}>
+              취소
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleUpdate}>
+              수정
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+
+      {/* 새로운 항목 추가 모달 */}
+      <Modal open={registerOpen} onClose={handleRegisterClose}>
+        <Box sx={modalStyle}>
+          <Typography variant="h6" mb={2}>
+            새 중분류 등록
+          </Typography>
+
+          {/* 대분류 선택 */}
+          <TextField
+            select
+            label="대분류 선택"
+            value={selectedCategoryId}
+            onChange={(e) => setSelectedCategoryId(e.target.value)}
+            fullWidth
+            margin="normal"
+            SelectProps={{ native: true }}
+          >
+            <option value=""></option>
+            {bigCategories.map((category) => (
+              <option key={category.category_no} value={category.category_no}>
+                {category.category_name}
+              </option>
+            ))}
+          </TextField>
+
+          {/* 중분류 이름 입력 */}
+          <TextField
+            label="중분류 이름"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+
+          {/* 이미지 미리보기 */}
+          {newCategoryImage && (
+            <Box mb={2} display="flex" flexDirection="column" alignItems="center" gap={2}>
+              <img
+                src={URL.createObjectURL(newCategoryImage)}
+                alt="New Guide"
+                style={{ maxWidth: '100%', maxHeight: '150px', borderRadius: '8px' }}
+              />
+            </Box>
+          )}
+
+          {/* 이미지 업로드 버튼 */}
+          <Button variant="contained" component="label" fullWidth sx={{ mb: 2 }}>
+            이미지 업로드
+            <input type="file" hidden onChange={handleNewImageChange} />
+          </Button>
+
+          {/* 세부내용 입력 */}
+          <TextField
+            fullWidth
+            label="세부내용"
+            value={guideContent}
+            onChange={(e) => setGuideContent(e.target.value)}
+            multiline
+            rows={12}
+            margin="normal"
+            variant="outlined"
+            InputLabelProps={{ shrink: true }}
+            sx={{
+              '& .MuiInputBase-root': {
+                alignItems: 'flex-start',
+                height: 'auto',
+              },
+              '& .MuiInputBase-input': {
+                padding: '8px',
+              },
+            }}
+          />
+
+          {/* 등록 및 취소 버튼 */}
+          <Stack direction="row" justifyContent="flex-end" spacing={2} mt={2}>
+            <Button variant="outlined" onClick={handleRegisterClose}>
+              취소
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleRegister}>
+              등록
+            </Button>
+          </Stack>
+        </Box>
+      </Modal>
+
+      <Copyright sx={{ mt: 'auto' }} />
+    </Box>
+  </AppTheme>
+);
+
 }

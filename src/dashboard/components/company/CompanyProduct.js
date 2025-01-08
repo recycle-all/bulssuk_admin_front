@@ -19,6 +19,7 @@ import {
 import AppTheme from '../../../shared-theme/AppTheme';
 import SideMenu from '../common/SideMenu';
 import Header from '../common/Header'
+import Copyright from '../../internals/components/Copyright';
 const modalStyle = {
   position: 'absolute',
   top: '50%',
@@ -227,6 +228,7 @@ export default function CompanyProduct() {
   
 
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -489,5 +491,7 @@ export default function CompanyProduct() {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 }

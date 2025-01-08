@@ -5,6 +5,7 @@ import AppTheme from '../../../shared-theme/AppTheme';
 import { Box, CssBaseline, Button, Dialog, TextField, Typography } from '@mui/material';
 import SideMenu from '../common/SideMenu';
 import Header from '../common/Header'
+import Copyright from '../../internals/components/Copyright';
 const Calendar = () => {
   const [events, setEvents] = useState([]); // 이벤트 데이터
   const [monthImage, setMonthImage] = useState({ name: '기본 이미지', preview: '' });
@@ -320,6 +321,7 @@ const handleCreateEvent = async () => {
   };
 
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -658,6 +660,8 @@ const handleCreateEvent = async () => {
 
       </Box>
     </AppTheme>
+          <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

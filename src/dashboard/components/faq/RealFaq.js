@@ -6,6 +6,7 @@ import AppTheme from '../../../shared-theme/AppTheme';
 import SideMenu from '../common/SideMenu';
 import { useNavigate } from 'react-router-dom';
 import Header from '../common/Header';
+import Copyright from '../../internals/components/Copyright';
 
 const FaqManagement = () => {
   const [faqs, setFaqs] = useState([]);
@@ -142,6 +143,7 @@ const FaqManagement = () => {
   };
 
   return (
+    <>
     <AppTheme>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -206,6 +208,8 @@ const FaqManagement = () => {
         </Box>
       </Box>
     </AppTheme>
+              <Copyright sx={{ my: 4 }} />
+    </>
   );
 };
 

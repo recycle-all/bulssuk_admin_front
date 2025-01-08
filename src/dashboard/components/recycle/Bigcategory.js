@@ -7,6 +7,7 @@ import { alpha } from '@mui/material/styles';
 import SideMenu from '../common/SideMenu';
 import AppTheme from '../../../shared-theme/AppTheme';
 import Header from '../common/Header';
+import Copyright from '../../internals/components/Copyright';
 
 const CategoryCard = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -182,6 +183,7 @@ const handleCreate = async () => {
 };
 
 return (
+  <>
   <AppTheme>
     <CssBaseline enableColorScheme />
     <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -313,6 +315,8 @@ return (
       </Box>
     </Box>
   </AppTheme>
+            <Copyright sx={{ my: 4 }} />
+  </>
 );
 
 
