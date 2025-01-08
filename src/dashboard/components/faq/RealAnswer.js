@@ -164,6 +164,8 @@ const RealAnswer = () => {
 
   const isEditable = faq && faq[0]?.is_approved !== '대기중';
 
+  
+
   return (
     <AppTheme>
       <CssBaseline enableColorScheme />
@@ -180,7 +182,7 @@ const RealAnswer = () => {
             p: 3,
           })}
         >
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h4" gutterBottom sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
             FAQ 관리
           </Typography>
           <Paper
@@ -192,8 +194,17 @@ const RealAnswer = () => {
             }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={3}><Typography variant="subtitle1">카테고리</Typography></Grid>
-              <Grid item xs={9}>
+            <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>등록일</Typography>
+              </Grid>
+              <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography sx={{ fontSize: '1rem' }}>{faq[0]?.created_at ? formatDate(faq[0].created_at) : '등록일 정보 없음'}</Typography>
+              </Grid>
+
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>카테고리</Typography>
+              </Grid>
+              <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
                 {(isEditMode || !isEditable) ? (
                   <Select
                     value={selectedCategory || ''}
@@ -211,30 +222,33 @@ const RealAnswer = () => {
                     ))}
                   </Select>
                 ) : (
-                  <Typography>
+                  <Typography sx={{ fontSize: '1rem' }}>
                     {categoryName || '카테고리 정보 없음'}
                   </Typography>
                 )}
               </Grid>
 
-              <Grid item xs={3}><Typography variant="subtitle1">질문</Typography></Grid>
-              <Grid item xs={9}>
-                <Typography>{faq[0]?.question || '질문 정보 없음'}</Typography>
+  
+
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', margin: '0 auto' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>질문</Typography>
+              </Grid>
+              <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography sx={{ fontSize: '1rem' }}>{faq[0]?.question || '질문 정보 없음'}</Typography>
               </Grid>
 
-              <Grid item xs={3}><Typography variant="subtitle1">등록일</Typography></Grid>
-              <Grid item xs={9}>
-                <Typography>{faq[0]?.created_at ? formatDate(faq[0].created_at) : '등록일 정보 없음'}</Typography>
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>답변</Typography>
+              </Grid>
+              <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography sx={{ fontSize: '1.2rem', lineHeight: '1.5', whiteSpace: 'pre-line' }}>{faq[0]?.answer || '답변 정보 없음'}</Typography>
               </Grid>
 
-              <Grid item xs={3}><Typography variant="subtitle1">답변</Typography></Grid>
-              <Grid item xs={9}>
-                <Typography>{faq[0]?.answer || '답변 정보 없음'}</Typography>
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>상태</Typography>
               </Grid>
-
-              <Grid item xs={3}><Typography variant="subtitle1">상태</Typography></Grid>
-              <Grid item xs={9}>
-                <Typography>{faq[0]?.is_approved || '상태 정보 없음'}</Typography>
+              <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+                <Typography sx={{ fontSize: '1rem' }}>{faq[0]?.is_approved || '상태 정보 없음'}</Typography>
               </Grid>
             </Grid>
 
@@ -249,7 +263,7 @@ const RealAnswer = () => {
                       mr: 2,
                       '&:hover': { backgroundColor: '#218838' },
                     }}
-                    onClick={() => handleSaveChanges('채택 완료')}
+                    onClick={() => handleSaveChanges('채택')}
                   >
                     채택완료
                   </Button>
@@ -264,6 +278,18 @@ const RealAnswer = () => {
                   >
                     반려
                   </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: '#6c757d',
+                      color: '#fff',
+                      '&:hover': { backgroundColor: '#5a6268' },
+                      ml: 2,
+                    }}
+                    onClick={() => setIsEditMode(false)}
+                  >
+                    취소
+                  </Button>
                 </>
               ) : (
                 <>
@@ -277,7 +303,7 @@ const RealAnswer = () => {
                           mr: 2,
                           '&:hover': { backgroundColor: '#218838' },
                         }}
-                        onClick={() => handleApprove('채택 완료')}
+                        onClick={() => handleApprove('채택')}
                       >
                         채택완료
                       </Button>
