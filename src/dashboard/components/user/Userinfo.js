@@ -12,7 +12,8 @@ const Userinfo = () => {
   const [point, setPoint] = useState(0); // 특정 user_no에 해당하는 포인트
   const navigate = useNavigate();
   const { state } = useLocation(); // state에서 포인트 데이터 가져오기
-
+  const location = useLocation();
+  const { point_total, attendance_rate } = location.state || {};
   // X 버튼 클릭 시 /usercheck로 이동
   const handleClose = () => {
     navigate('/usercheck');
@@ -119,7 +120,7 @@ const Userinfo = () => {
       { label: '이메일', value: user.user_email },
       { label: '가입 일자', value: user.created_at.slice(0, 10) },
       { label: '보유 포인트', value: `${point}포인트` },
-      { label: '출석률', value: '90%' },
+      { label: '출석률', value:attendance_rate },
     ].map((item, index) => (
       <React.Fragment key={index}>
         <Box
