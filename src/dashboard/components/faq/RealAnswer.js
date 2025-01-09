@@ -302,7 +302,7 @@ const RealAnswer = () => {
                       mr: 2,
                       '&:hover': { backgroundColor: '#218838' },
                     }}
-                    onClick={() => handleSaveChanges('채택')}
+                    onClick={() => handleSaveChanges('채택 완료')}
                   >
                     채택완료
                   </Button>
@@ -342,7 +342,7 @@ const RealAnswer = () => {
                           mr: 2,
                           '&:hover': { backgroundColor: '#218838' },
                         }}
-                        onClick={() => handleApprove('채택')}
+                        onClick={() => handleApprove('채택 완료')}
                       >
                         채택완료
                       </Button>
