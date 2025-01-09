@@ -149,14 +149,14 @@ const Vote = () => {
 
           {/* 모달 */}
           <Modal open={isModalOpen} onClose={closeModal}>
-  <Box
+          <Box
     sx={{
       position: "absolute",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
       width: "20%",
-      bgcolor: "background.paper",
+      bgcolor: "white", // 배경색을 하얀색으로 설정
       boxShadow: 24,
       p: 4,
       borderRadius: "12px", // 둥근 테두리

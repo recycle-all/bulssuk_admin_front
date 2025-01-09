@@ -275,9 +275,9 @@ const RealAnswer = () => {
     borderBottom: '1px solid #ddd',
     height: '400px', // 고정 높이 설정
     display: 'flex', // 플렉스박스를 활성화
-    justifyContent: 'center', // 가로 방향으로 중앙 정렬
-    alignItems: 'center', // 세로 방향으로 중앙 정렬
-    textAlign: 'center', // 텍스트 중앙 정렬
+    justifyContent: 'flex-start', // 가로 방향으로 중앙 정렬
+    alignItems: 'flex-start', // 세로 방향으로 중앙 정렬
+    textAlign: 'left', // 텍스트 중앙 정렬
   }}
 >
                 <Typography sx={{ fontSize: '1.2rem', lineHeight: '1.5', whiteSpace: 'pre-line' }}>{faq[0]?.answer || '답변 정보 없음'}</Typography>
