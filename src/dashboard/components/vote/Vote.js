@@ -56,6 +56,30 @@ const Vote = () => {
     setIsModalOpen(false);
   };
 
+  // 반려하기
+  const rejectVote = async () => {
+    if (!selectedVote) return;
+  
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/update_vote`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ vote_no: selectedVote.vote_no }),
+      });
+  
+      if (response.ok) {
+        console.log("Vote rejected successfully");
+        fetchAllVotes(); // 데이터를 새로고침하여 변경사항 반영
+        closeModal();
+      } else {
+        console.error("Error rejecting vote");
+      }
+    } catch (error) {
+      console.error("Error rejecting vote:", error);
+    }
+  };
   return (
     <>
     <AppTheme>
@@ -142,108 +166,122 @@ const Vote = () => {
       gap: 3, // 요소 간 간격
     }}
   >
-    {selectedVote && (
-      <>
-        {/* 제목 */}
-        <Typography
-          variant="h5"
-          fontWeight="bold"
-          sx={{ textAlign: "center", mb: 3 }}
-        >
-          투표 관리
-        </Typography>
+{selectedVote && (
+  <>
+    <Typography
+      variant="h5"
+      fontWeight="bold"
+      sx={{ textAlign: "center", mb: 3 }}
+    >
+      투표 관리
+    </Typography>
 
-        {/* 이미지 영역 */}
-        <Box
-          sx={{
-            width: "80%", // 이미지 너비를 모달의 절반으로 설정
-            aspectRatio: "1 / 1", // 정사각형 비율
-            overflow: "hidden",
-            borderRadius: "8px", // 둥근 테두리
-            boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // 그림자 효과
-          }}
-        >
-          <img
-            src={selectedVote.img_url}
-            alt="투표 이미지"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover", // 비율 유지하며 영역 채우기
-            }}
-          />
-        </Box>
+    {/* 이미지 영역 */}
+    <Box
+      sx={{
+        width: "80%",
+        aspectRatio: "1 / 1",
+        overflow: "hidden",
+        borderRadius: "8px",
+        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <img
+        src={selectedVote.img_url}
+        alt="투표 이미지"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+        }}
+      />
+    </Box>
 
     {/* 진행 상황 */}
-<Box
-  sx={{
-    display: "flex",
-    justifyContent: "space-around", // 각 항목 사이에 간격 추가
-    width: "100%", // 가로 폭 맞춤
-    mt: 1, // 위쪽 여백
-  }}
->
-  <Typography
-    sx={{
-      fontSize: "17px", // 글자 크기 조정
-      fontWeight: "normal", // 글자 두께 추가 (선택)
-    }}
-  >
-    유리: {selectedVote.vote_count.glass}
-  </Typography>
-  <Typography
-    sx={{
-      fontSize: "17px", // 글자 크기 조정
-      fontWeight: "normal", // 글자 두께 추가 (선택)
-    }}
-  >
-    메탈: {selectedVote.vote_count.metal}
-  </Typography>
-  <Typography
-    sx={{
-      fontSize: "17px", // 글자 크기 조정
-      fontWeight: "normal", // 글자 두께 추가 (선택)
-    }}
-  >
-    플라스틱: {selectedVote.vote_count.plastic}
-  </Typography>
-</Box>
-        <Typography
-  variant="h6"
-  sx={{
-    fontSize: "19px",
-    fontWeight: "bold",
-    mt: 2,
-    display: "flex", // 가로 정렬
-    alignItems: "center", // 텍스트 정렬
-    gap: 1, // "결과:"와 텍스트 간격
-  }}
->
-  결과:
-  <Typography
-    component="span" // 가로로 연결되도록 span으로 설정
-    sx={{
-      fontSize: "19px",
-      fontWeight: "bold",
-      color: "blue", // 파란색 유지
-    }}
-  >
-    {translationMap[selectedVote.vote_result]}
-  </Typography>
-</Typography>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-around",
+        width: "100%",
+        mt: 1,
+      }}
+    >
+      <Typography
+        sx={{
+          fontSize: "17px",
+          fontWeight: "normal",
+        }}
+      >
+        유리: {selectedVote.vote_count.glass}
+      </Typography>
+      <Typography
+        sx={{
+          fontSize: "17px",
+          fontWeight: "normal",
+        }}
+      >
+        메탈: {selectedVote.vote_count.metal}
+      </Typography>
+      <Typography
+        sx={{
+          fontSize: "17px",
+          fontWeight: "normal",
+        }}
+      >
+        플라스틱: {selectedVote.vote_count.plastic}
+      </Typography>
+    </Box>
 
+    <Typography
+      variant="h6"
+      sx={{
+        fontSize: "19px",
+        fontWeight: "bold",
+        mt: 2,
+        display: "flex",
+        alignItems: "center",
+        gap: 1,
+      }}
+    >
+      결과:
+      <Typography
+        component="span"
+        sx={{
+          fontSize: "19px",
+          fontWeight: "bold",
+          color: "blue",
+        }}
+      >
+        {translationMap[selectedVote.vote_result]}
+      </Typography>
+    </Typography>
 
-        {/* 확인 버튼 */}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={closeModal}
-          sx={{ mt: 3 }}
-        >
-          확인
-        </Button>
-      </>
-    )}
+    {/* 버튼들 */}
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center", // 버튼 가운데 정렬
+        gap: 2, // 버튼 간 간격
+        mt: 3,
+      }}
+    >
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={rejectVote}
+      >
+        반려
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={closeModal}
+      >
+        확인
+      </Button>
+    </Box>
+  </>
+)}
   </Box>
 </Modal>
 
