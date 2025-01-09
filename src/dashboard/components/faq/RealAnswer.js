@@ -172,36 +172,48 @@ const RealAnswer = () => {
       <Box sx={{ display: 'flex', height: '100vh' }}>
         <SideMenu />
         <Box
-          component="main"
-          sx={(theme) => ({
-            flexGrow: 1,
-            backgroundColor: theme.vars
-              ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
-              : alpha(theme.palette.background.default, 1),
-            overflow: 'auto',
-            p: 3,
-          })}
-        >
+  component="main"
+  sx={(theme) => ({
+    flexGrow: 1,
+    display: 'flex', // Flexbox 사용
+    flexDirection: 'column', // 세로 정렬
+    backgroundColor: theme.vars
+      ? `rgba(${theme.vars.palette.background.defaultChannel} / 1)`
+      : alpha(theme.palette.background.default, 1),
+    overflow: 'hidden', // 전체 화면에서 스크롤 방지
+    p: 3,
+  })}
+>
           <Typography variant="h4" gutterBottom sx={{ fontSize: '2rem', fontWeight: 'bold' }}>
             FAQ 관리
           </Typography>
-          <Paper
-            elevation={3}
-            sx={{
-              p: 3,
-              borderRadius: '8px',
-              backgroundColor: '#f9f9f9',
-            }}
-          >
+          <Box
+    sx={{
+      flex: 1, // 남은 공간을 모두 차지
+      overflowY: 'auto', // 내용이 길 경우 스크롤 활성화
+    }}
+  >
+    <Paper
+      elevation={3}
+      sx={{
+        p: 3,
+        borderRadius: '8px',
+        backgroundColor: '#f9f9f9',
+        height: '100%', // 전체 높이 사용
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between', // 버튼이 하단에 위치
+      }}
+    >
             <Grid container spacing={2}>
-            <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+            <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', borderRight: '1px solid #ddd',paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
                 <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>등록일</Typography>
               </Grid>
               <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
                 <Typography sx={{ fontSize: '1rem' }}>{faq[0]?.created_at ? formatDate(faq[0].created_at) : '등록일 정보 없음'}</Typography>
               </Grid>
 
-              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd',borderRight: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
                 <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>카테고리</Typography>
               </Grid>
               <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
@@ -230,21 +242,48 @@ const RealAnswer = () => {
 
   
 
-              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', margin: '0 auto' }}>
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd',borderRight: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', margin: '0 auto' }}>
                 <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>질문</Typography>
               </Grid>
               <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
                 <Typography sx={{ fontSize: '1rem' }}>{faq[0]?.question || '질문 정보 없음'}</Typography>
               </Grid>
 
-              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
-                <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>답변</Typography>
-              </Grid>
-              <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+              <Grid
+  item
+  xs={3}
+  sx={{
+    borderBottom: '1px solid #ddd',
+    borderRight: '1px solid #ddd',
+    paddingBottom: '10px',
+    paddingTop: '10px',
+    width: '90%',
+    display: 'flex', // 플렉스 컨테이너 설정
+    justifyContent: 'center', // 수평 가운데 정렬
+    alignItems: 'center', // 수직 가운데 정렬
+    textAlign: 'center', // 텍스트 가운데 정렬
+  }}
+>
+  <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+    답변
+  </Typography>
+</Grid>
+<Grid
+  item
+  xs={9} // 답변 내용이 들어가는 그리드
+  sx={{
+    borderBottom: '1px solid #ddd',
+    height: '400px', // 고정 높이 설정
+    display: 'flex', // 플렉스박스를 활성화
+    justifyContent: 'center', // 가로 방향으로 중앙 정렬
+    alignItems: 'center', // 세로 방향으로 중앙 정렬
+    textAlign: 'center', // 텍스트 중앙 정렬
+  }}
+>
                 <Typography sx={{ fontSize: '1.2rem', lineHeight: '1.5', whiteSpace: 'pre-line' }}>{faq[0]?.answer || '답변 정보 없음'}</Typography>
               </Grid>
 
-              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
+              <Grid item xs={3} sx={{ borderBottom: '1px solid #ddd', borderRight: '1px solid #ddd',paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
                 <Typography variant="subtitle1" sx={{ fontSize: '1.2rem', fontWeight: 'bold' }}>상태</Typography>
               </Grid>
               <Grid item xs={9} sx={{ borderBottom: '1px solid #ddd', paddingBottom: '10px', paddingTop: '10px', width: '90%' }}>
@@ -348,6 +387,7 @@ const RealAnswer = () => {
               </Button>
             </Grid>
           </Paper>
+        </Box>
         </Box>
       </Box>
     </AppTheme>

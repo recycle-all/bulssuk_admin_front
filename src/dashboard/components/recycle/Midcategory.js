@@ -447,12 +447,19 @@ return (
 
           {/* 중분류 이름 입력 */}
           <TextField
-            label="중분류 이름"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
+  label="중분류 이름"
+  value={newCategoryName}
+  onChange={(e) => setNewCategoryName(e.target.value)}
+  fullWidth
+  margin="normal"
+  InputProps={{
+    sx: {
+      '& .MuiInputBase-input': {
+        paddingBottom: '30px', // 내부 여백 설정
+      },
+    },
+  }}
+/>
 
           {/* 이미지 미리보기 */}
           {newCategoryImage && (

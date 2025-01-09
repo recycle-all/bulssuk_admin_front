@@ -51,13 +51,40 @@ export default function CompanyProduct() {
     product_img: null,
   });
   const [previewImage, setPreviewImage] = useState(null);
-
+  // 상품에 해당하는 포인트 가져오기
+  const fetchProductPoints = async (products) => {
+    try {
+      const updatedProducts = await Promise.all(
+        products.map(async (product) => {
+          const response = await fetch(
+            `${process.env.REACT_APP_DOMAIN}/product_point?product_name=${encodeURIComponent(product.product_name)}`
+          );
+          const data = await response.json();
+  
+          console.log(data); // 응답 데이터 확인
+  
+          // product_name과 shopping_point를 매핑
+          return {
+            ...product,
+            points: data.shopping_point || 100, // 서버에서 받은 shopping_point를 설정
+          };
+        })
+      );
+  
+      return updatedProducts;
+    } catch (error) {
+      console.error('Error fetching product points:', error);
+      return products.map((product) => ({ ...product, points: 100 })); // 기본값 설정
+    }
+  };
+  
   const getAllProducts = async () => {
     try {
       const response = await fetch(`${process.env.REACT_APP_DOMAIN}/products`);
       const data = await response.json();
-      setProducts(data);
-      setFilteredProducts(data);
+      const productsWithPoints = await fetchProductPoints(data); // 포인트 데이터 추가
+      setProducts(productsWithPoints);
+      setFilteredProducts(productsWithPoints);
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -226,7 +253,7 @@ export default function CompanyProduct() {
     }
   };
   
-
+console.log(products)
   return (
     <>
     <AppTheme>
@@ -276,22 +303,22 @@ export default function CompanyProduct() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {filteredProducts.map((product, index) => (
-                  <TableRow key={product.product_no}>
-                    <TableCell>{index + 1}</TableCell>
-                    <TableCell>
-                      {companies.find((c) => c.company_no === product.company_no)?.company_name}
-                    </TableCell>
-                    <TableCell>{product.product_name}</TableCell>
-                    <TableCell>{product.points || '100'}</TableCell>
-                    <TableCell>
-                      <Button variant="contained" onClick={() => handleOpen(product)}>
-                        확인
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
+  {filteredProducts.map((product, index) => (
+    <TableRow key={product.product_no}>
+      <TableCell>{index + 1}</TableCell>
+      <TableCell>
+        {companies.find((c) => c.company_no === product.company_no)?.company_name}
+      </TableCell>
+      <TableCell>{product.product_name}</TableCell>
+      <TableCell>{product.points || '100'}</TableCell> {/* 포인트 표시 */}
+      <TableCell>
+        <Button variant="contained" onClick={() => handleOpen(product)}>
+          확인
+        </Button>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
             </Table>
           </TableContainer>
                     {/* 수정 모달 */}
